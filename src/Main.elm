@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Color exposing (rgb, white)
+import Color exposing (blue, rgb, white)
 import Element
     exposing
         ( Device
@@ -70,6 +70,7 @@ type Style
     = None
     | Title
     | Author
+    | AuthorName
     | Description
     | Beta
     | BuyButton
@@ -115,6 +116,8 @@ stylesheet model =
             [ Font.size (responsive deviceWidth widthRange ( 26, 40 ))
             , fontGeorgia
             ]
+        , style AuthorName
+            [ Color.text blue ]
         , style Description
             [ Font.size 18
             , fontSourceSansPro
@@ -203,6 +206,16 @@ viewActionLinks deviceWidth =
         ]
 
 
+viewAuthor : Element Style variation msg
+viewAuthor =
+    paragraph Author
+        []
+        [ text "by "
+        , newTab "https://twitter.com/elpapapollo" <|
+            el AuthorName [] (text "Jeremy Fairbank")
+        ]
+
+
 viewContent : Int -> Element Style variation msg
 viewContent deviceWidth =
     let
@@ -215,7 +228,7 @@ viewContent deviceWidth =
     column None
         [ spacing 10 ]
         [ h1 Title [] (text "Programming Elm")
-        , subheading Author [] "by Jeremy Fairbank"
+        , viewAuthor
         , paragraph Description
             [ paddingBottom 20, width descriptionWidth ]
             [ text description ]
