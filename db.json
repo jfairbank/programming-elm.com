@@ -1,0 +1,62 @@
+{
+  "badfeed": [
+    {
+      "id": 1,
+      "src": "https://front-end-elm.surge.sh/1.jpg",
+      "caption": null,
+      "liked": "no"
+    }
+  ],
+
+  "feed": [
+    {
+      "id": 1,
+      "url": "https://front-end-elm.surge.sh/1.jpg",
+      "caption": "Surfing",
+      "liked": false,
+      "comments": ["Cowabunga, dude!"]
+    },
+
+    {
+      "id": 2,
+      "url": "https://front-end-elm.surge.sh/2.jpg",
+      "caption": "The Fox",
+      "liked": false,
+      "comments": []
+    },
+
+    {
+      "id": 3,
+      "url": "https://front-end-elm.surge.sh/3.jpg",
+      "caption": "Evening",
+      "liked": false,
+      "comments": []
+    }
+  ],
+
+  "wsFeed": [
+    {
+      "id": 4,
+      "url": "https://front-end-elm.surge.sh/4.jpg",
+      "caption": "Tree Canopy",
+      "liked": false,
+      "comments": []
+    },
+
+    {
+      "id": 5,
+      "url": "https://front-end-elm.surge.sh/5.jpg",
+      "caption": "Contemplation",
+      "liked": false,
+      "comments": []
+    },
+
+    {
+      "id": 6,
+      "url": "https://front-end-elm.surge.sh/6.jpg",
+      "caption": "Pretty Flowers",
+      "liked": false,
+      "comments": []
+    }
+  ]
+}
