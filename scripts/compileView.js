@@ -11,7 +11,11 @@ const writeFile = util.promisify(fs.writeFile)
 
 const rootPath = path.resolve(__dirname, '../')
 
-const model = { width: 1920, height: 960 }
+const model = {
+  coverUrl: manifest['static/media/jfelm.jpg'],
+  width: 1920,
+  height: 960,
+}
 const decoder = 'Main.decodeModel'
 const viewFunction = 'Main.view'
 const options = { model, decoder }
@@ -25,7 +29,7 @@ function addLinkAndScript($) {
   const $body = $('body')
   const $children = $body.children()
   const $root = $('<div id="root"></div>')
-  const mainJs = manifest.main.js
+  const mainJs = manifest['main.js']
 
   $('head')
     .append(`

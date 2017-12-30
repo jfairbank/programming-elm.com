@@ -40,7 +40,7 @@ import Element.Attributes
         )
 import Html exposing (Html, i)
 import Html.Attributes exposing (class)
-import Json.Decode exposing (Decoder, field, int, map, map2)
+import Json.Decode exposing (Decoder, field, int, map, map2, string)
 import Style exposing (StyleSheet, style)
 import Style.Border as Border
 import Style.Color as Color
@@ -49,21 +49,44 @@ import Style.Shadow as Shadow
 import Window
 
 
+type alias Flags =
+    { coverUrl : String
+    , width : Int
+    , height : Int
+    }
+
+
 type alias Model =
-    Device
+    { coverUrl : String
+    , device : Device
+    }
 
 
-decodeModel : Decoder Model
-decodeModel =
+decodeDevice : Decoder Device
+decodeDevice =
     map2 Window.Size
         (field "width" int)
         (field "height" int)
         |> map classifyDevice
 
 
-init : Window.Size -> ( Model, Cmd Msg )
-init size =
-    ( classifyDevice size, Cmd.none )
+decodeModel : Decoder Model
+decodeModel =
+    map2 Model
+        (field "coverUrl" string)
+        decodeDevice
+
+
+initialModel : Flags -> Model
+initialModel { coverUrl, width, height } =
+    { coverUrl = coverUrl
+    , device = classifyDevice (Window.Size width height)
+    }
+
+
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    ( initialModel flags, Cmd.none )
 
 
 type Style
@@ -98,12 +121,9 @@ fontSourceSansPro =
         ]
 
 
-stylesheet : Model -> StyleSheet Style variation
-stylesheet model =
+stylesheet : Float -> StyleSheet Style variation
+stylesheet deviceWidth =
     let
-        deviceWidth =
-            toFloat model.width
-
         widthRange =
             ( 600, 1400 )
     in
@@ -159,8 +179,8 @@ bookUrl =
     "https://pragprog.com/book/jfelm/programming-elm"
 
 
-viewCover : Int -> Element Style variation msg
-viewCover deviceWidth =
+viewCover : String -> Int -> Element Style variation msg
+viewCover coverUrl deviceWidth =
     let
         coverWidth =
             if deviceWidth >= 1230 then
@@ -173,7 +193,7 @@ viewCover deviceWidth =
     newTab bookUrl <|
         image Cover
             [ width (px coverWidth) ]
-            { src = "/jfelm.jpg"
+            { src = coverUrl
             , caption = "Programming Elm Cover"
             }
 
@@ -216,8 +236,8 @@ viewAuthor =
         ]
 
 
-viewContent : Int -> Element Style variation msg
-viewContent deviceWidth =
+viewContent : String -> Int -> Element Style variation msg
+viewContent coverUrl deviceWidth =
     let
         descriptionWidth =
             if deviceWidth >= 600 then
@@ -232,20 +252,22 @@ viewContent deviceWidth =
         , paragraph Description
             [ paddingBottom 20, width descriptionWidth ]
             [ text description ]
-        , when (deviceWidth < coverCutoffDeviceWidth) (viewCover deviceWidth)
+        , when (deviceWidth < coverCutoffDeviceWidth)
+            (viewCover coverUrl deviceWidth)
         , el Beta [ paddingTop 20 ] (italic "NOW IN BETA!")
         , viewActionLinks deviceWidth
         ]
 
 
 view : Model -> Html msg
-view model =
-    Element.layout (stylesheet model) <|
+view { coverUrl, device } =
+    Element.layout (stylesheet (toFloat device.width)) <|
         el None [ center ] <|
             row None
                 [ padding 40, spread, maxWidth (px 1400) ]
-                [ viewContent model.width
-                , when (model.width >= coverCutoffDeviceWidth) (viewCover model.width)
+                [ viewContent coverUrl device.width
+                , when (device.width >= coverCutoffDeviceWidth)
+                    (viewCover coverUrl device.width)
                 ]
 
 
@@ -257,7 +279,9 @@ update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
         UpdateSize size ->
-            ( classifyDevice size, Cmd.none )
+            ( { model | device = classifyDevice size }
+            , Cmd.none
+            )
 
 
 subscriptions : Model -> Sub Msg
@@ -265,7 +289,7 @@ subscriptions model =
     Window.resizes UpdateSize
 
 
-main : Program Window.Size Model Msg
+main : Program Flags Model Msg
 main =
     Html.programWithFlags
         { init = init
