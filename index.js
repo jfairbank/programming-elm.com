@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const jsonServer = require('json-server')
+const proxy = require('express-http-proxy')
 const WebSocket = require('ws')
 const { Observable } = require('rxjs')
 const db = require('./db.json')
@@ -36,6 +37,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.static('build'))
+app.get('/*.jpg', proxy('programming-elm.surge.sh'))
 app.use(jsonServer.router('db.json'))
 
 const server = app.listen(PORT, () => {
