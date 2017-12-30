@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const jsonServer = require('json-server')
+const WebSocket = require('ws')
+const { Observable } = require('rxjs')
 const db = require('./db.json')
 
 // Constants
@@ -12,7 +14,20 @@ const isProduction = process.env.NODE_ENV === 'production'
 // Helpers
 // =======
 
-const render = data => (req, res) => res.send(data)
+const randomDelay = (min, max) =>
+  Math.floor(Math.random() * (max - min)) + min
+
+const randomIteration = array => Observable.create((subscriber) => {
+  const copy = array.slice(0)
+
+  while (copy.length > 0) {
+    const index = Math.floor(Math.random() * copy.length)
+    const [item] = copy.splice(index, 1)
+    subscriber.next(item)
+  }
+
+  subscriber.complete()
+})
 
 // API
 // ===
@@ -23,8 +38,28 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(jsonServer.router('db.json'))
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   if (!isProduction) {
     console.log(`Server listening at http://localhost:${PORT}`)
   }
+})
+
+// WebSockets
+// ==========
+
+const wss = new WebSocket.Server({ server })
+
+const feed$ = randomIteration(db.wsFeed)
+  .map(JSON.stringify)
+  .concatMap(photo =>
+    Observable
+      .of(photo)
+      .delay(randomDelay(1000, 5000))
+  )
+
+wss.on('connection', (ws) => {
+  const subscription = feed$.subscribe(photo => ws.send(photo))
+
+  ws.on('error', () => {})
+  ws.on('close', () => subscription.unsubscribe())
 })
