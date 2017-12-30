@@ -38,6 +38,7 @@ function addLinkAndScript($) {
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Programming Elm</title>
       <link rel="stylesheet" href="https://use.fontawesome.com/102743fa7d.css">
+      <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700i" rel="stylesheet">
     `)
 
   $root.append($children)
