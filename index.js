@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const jsonServer = require('json-server')
 const db = require('./db.json')
 
 // Constants
@@ -20,9 +21,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.static('build'))
-
-app.get('/badfeed', render(db.badfeed))
-app.get('/feed', render(db.feed))
+app.use(jsonServer.router('db.json'))
 
 app.listen(PORT, () => {
   if (!isProduction) {
