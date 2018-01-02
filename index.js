@@ -1,10 +1,11 @@
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 const jsonServer = require('json-server')
 const proxy = require('express-http-proxy')
 const WebSocket = require('ws')
 const { Observable } = require('rxjs')
-const db = require('./db.json')
+const picshareDB = require('./picshare.json')
 
 // Constants
 // =========
@@ -35,11 +36,24 @@ const randomIteration = array => Observable.create((subscriber) => {
 
 const app = express()
 
+app.use(bodyParser.json())
 app.use(cors())
-app.use(express.static('build'))
-app.get('/*.jpg', proxy('programming-elm.surge.sh'))
-app.use(jsonServer.router('db.json'))
 
+// Homepage
+app.use(express.static('build'))
+
+// Salad Builder
+app.post('/salad/submit', (req, res) => {
+  res
+    .status(201)
+    .send(req.body)
+})
+
+// Picshare
+app.use(jsonServer.router('picshare.json'))
+app.get('/*.jpg', proxy('programming-elm.surge.sh'))
+
+// Server
 const server = app.listen(PORT, () => {
   if (!isProduction) {
     console.log(`Server listening at http://localhost:${PORT}`)
@@ -51,7 +65,7 @@ const server = app.listen(PORT, () => {
 
 const wss = new WebSocket.Server({ server })
 
-const feed$ = randomIteration(db.wsFeed)
+const feed$ = randomIteration(picshareDB.wsFeed)
   .map(JSON.stringify)
   .concatMap(photo =>
     Observable

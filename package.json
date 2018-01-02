@@ -5,6 +5,7 @@
   "scripts": {
     "build": "node scripts/build.js && node scripts/compileView.js",
     "dev": "node scripts/start.js",
+    "server:dev": "nodemon index.js",
     "start": "node index.js",
     "package": "elm-package",
     "make": "elm-make",
@@ -21,6 +22,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.2",
     "chalk": "^2.3.0",
     "cheerio": "^1.0.0-rc.2",
     "clean-webpack-plugin": "^0.1.17",
@@ -42,6 +44,7 @@
     "http-proxy-middleware": "^0.17.4",
     "json-server": "^0.12.1",
     "minimist": "1.2.0",
+    "nodemon": "^1.14.7",
     "postcss-loader": "^2.0.8",
     "react-dev-utils": "^4.2.1",
     "react-error-overlay": "^3.0.0",
