@@ -221,6 +221,7 @@ viewActionLinks deviceWidth =
         , row None
             [ center, spacing 40 ]
             [ viewIconLink "twitter" "https://twitter.com/programming_elm"
+            , viewIconLink "facebook" "https://www.facebook.com/programmingelm"
             , viewIconLink "book" bookUrl
             ]
         ]
