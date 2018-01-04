@@ -43,7 +43,7 @@ app.use(cors())
 app.use(express.static('build'))
 
 // Salad Builder
-app.post('/salad/submit', (req, res) => {
+app.post('/salad/send', (req, res) => {
   res
     .status(201)
     .send(req.body)
