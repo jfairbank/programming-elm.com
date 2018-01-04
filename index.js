@@ -44,9 +44,13 @@ app.use(express.static('build'))
 
 // Salad Builder
 app.post('/salad/send', (req, res) => {
-  res
-    .status(201)
-    .send(req.body)
+  if ('fail' in req.query) {
+    res.sendStatus(500)
+  } else {
+    res
+      .status(201)
+      .send(req.body)
+  }
 })
 
 // Picshare
