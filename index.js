@@ -54,8 +54,8 @@ app.post('/salad/send', (req, res) => {
 })
 
 // Picshare
-app.use(jsonServer.router('picshare.json'))
 app.get('/*.jpg', proxy('programming-elm.surge.sh'))
+app.use(jsonServer.router('picshare.json'))
 
 // Server
 const server = app.listen(PORT, () => {
