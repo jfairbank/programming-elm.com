@@ -5,6 +5,7 @@ const jsonServer = require('json-server')
 const proxy = require('express-http-proxy')
 const WebSocket = require('ws')
 const { Observable } = require('rxjs')
+const animal = require('./animal')
 const picshareDB = require('./picshare.json')
 
 // Constants
@@ -51,6 +52,18 @@ app.post('/salad/send', (req, res) => {
       .status(201)
       .send(req.body)
   }
+})
+
+// Animals
+const animals = animal.allUnique()
+const largeAnimals = animal.randomList(4000)
+
+app.get('/animals', (req, res) => {
+  res.send(animals)
+})
+
+app.get('/animals/large', (req, res) => {
+  res.send(largeAnimals)
 })
 
 // Picshare
