@@ -58,5 +58,12 @@
       "liked": false,
       "comments": []
     }
-  ]
+  ],
+
+  "account": {
+    "name": "Some Name",
+    "username": "photosgalore",
+    "bio": "Love taking photos!",
+    "avatarUrl": "https://programming-elm.surge.sh/smiley-avatar.png"
+  }
 }
