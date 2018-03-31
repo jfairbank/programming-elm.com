@@ -67,7 +67,7 @@ app.get('/animals/large', (req, res) => {
 })
 
 // Picshare
-app.get('/*.jpg', proxy('programming-elm.surge.sh'))
+app.get('/*.(jpg|png)', proxy('programming-elm.surge.sh'))
 app.use(jsonServer.router('picshare.json'))
 
 // Server
