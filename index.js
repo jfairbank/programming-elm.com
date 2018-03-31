@@ -17,20 +17,20 @@ const isProduction = process.env.NODE_ENV === 'production'
 // Helpers
 // =======
 
-const randomDelay = (min, max) =>
-  Math.floor(Math.random() * (max - min)) + min
+const randomDelay = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
-const randomIteration = array => Observable.create((subscriber) => {
-  const copy = array.slice(0)
+const randomIteration = array =>
+  Observable.create(subscriber => {
+    const copy = array.slice(0)
 
-  while (copy.length > 0) {
-    const index = Math.floor(Math.random() * copy.length)
-    const [item] = copy.splice(index, 1)
-    subscriber.next(item)
-  }
+    while (copy.length > 0) {
+      const index = Math.floor(Math.random() * copy.length)
+      const [item] = copy.splice(index, 1)
+      subscriber.next(item)
+    }
 
-  subscriber.complete()
-})
+    subscriber.complete()
+  })
 
 // API
 // ===
@@ -48,9 +48,7 @@ app.post('/salad/send', (req, res) => {
   if ('fail' in req.query) {
     res.sendStatus(500)
   } else {
-    res
-      .status(201)
-      .send(req.body)
+    res.status(201).send(req.body)
   }
 })
 
@@ -69,9 +67,7 @@ app.get('/animals/large', (req, res) => {
 // Picshare
 app.get('/*.(jpg|png)', proxy('programming-elm.surge.sh'))
 app.put('/account', (req, res) => {
-  res
-    .status(201)
-    .send(req.body)
+  res.status(201).send(req.body)
 })
 app.use(jsonServer.router('picshare.json'))
 
@@ -89,13 +85,9 @@ const wss = new WebSocket.Server({ server })
 
 const feed$ = randomIteration(picshareDB.wsFeed)
   .map(JSON.stringify)
-  .concatMap(photo =>
-    Observable
-      .of(photo)
-      .delay(randomDelay(1000, 5000))
-  )
+  .concatMap(photo => Observable.of(photo).delay(randomDelay(1000, 5000)))
 
-wss.on('connection', (ws) => {
+wss.on('connection', ws => {
   const subscription = feed$.subscribe(photo => ws.send(photo))
 
   ws.on('error', () => {})
