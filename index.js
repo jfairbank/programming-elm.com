@@ -69,6 +69,12 @@ app.get('/*.(jpg|png)', proxy('programming-elm.surge.sh'))
 app.put('/account', (req, res) => {
   res.status(200).send(req.body)
 })
+app.get('/user/:username/feed', (req, res, next) => {
+  const { username } = req.params
+  const userFeed = picshareDB.feed.filter(photo => photo.username === username)
+
+  res.send(userFeed)
+})
 app.use(jsonServer.router('picshare.json'))
 
 // Server

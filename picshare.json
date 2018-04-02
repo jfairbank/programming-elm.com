@@ -14,7 +14,8 @@
       "url": "https://programming-elm.surge.sh/1.jpg",
       "caption": "Surfing",
       "liked": false,
-      "comments": ["Cowabunga, dude!"]
+      "comments": ["Cowabunga, dude!"],
+      "username": "surfing_usa"
     },
 
     {
@@ -22,7 +23,8 @@
       "url": "https://programming-elm.surge.sh/2.jpg",
       "caption": "The Fox",
       "liked": false,
-      "comments": []
+      "comments": [],
+      "username": "elpapapollo"
     },
 
     {
@@ -30,7 +32,8 @@
       "url": "https://programming-elm.surge.sh/3.jpg",
       "caption": "Evening",
       "liked": false,
-      "comments": []
+      "comments": [],
+      "username": "elpapapollo"
     }
   ],
 
@@ -40,7 +43,8 @@
       "url": "https://programming-elm.surge.sh/4.jpg",
       "caption": "Tree Canopy",
       "liked": false,
-      "comments": []
+      "comments": [],
+      "username": "elpapapollo"
     },
 
     {
@@ -48,7 +52,8 @@
       "url": "https://programming-elm.surge.sh/5.jpg",
       "caption": "Contemplation",
       "liked": false,
-      "comments": []
+      "comments": [],
+      "username": "be_still"
     },
 
     {
@@ -56,7 +61,8 @@
       "url": "https://programming-elm.surge.sh/6.jpg",
       "caption": "Pretty Flowers",
       "liked": false,
-      "comments": []
+      "comments": [],
+      "username": "the_botanist"
     }
   ],
 
