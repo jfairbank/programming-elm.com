@@ -13,7 +13,11 @@
     "make": "elm-make",
     "repl": "elm-repl",
     "reactor": "elm-reactor",
-    "test": "elm-test",
+    "test": "npm run test:api",
+    "test:api": "run-p --race test:server test:api:run",
+    "test:api:run":
+      "wait-on http://localhost:8001/feed && teenytest api-tests/**/*.test.js",
+    "test:server": "PORT=8001 node .",
     "heroku-postbuild": "echo Skip build on Heroku"
   },
   "dependencies": {
@@ -69,7 +73,16 @@
     "ws": "^3.3.3"
   },
   "devDependencies": {
-    "prettier": "^1.11.1"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.11.1",
+    "superagent": "^4.1.0",
+    "teenytest": "^5.2.0",
+    "teenytest-promise": "^1.0.0",
+    "wait-on": "^3.2.0"
   },
-  "heroku-run-build-script": true
+  "heroku-run-build-script": true,
+  "teenytest": {
+    "timeout": 20000,
+    "plugins": ["teenytest-promise"]
+  }
 }
