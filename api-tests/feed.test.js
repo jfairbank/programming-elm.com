@@ -1,5 +1,6 @@
 const assert = require('assert')
 const WebSocket = require('ws')
+const picshare = require('../picshare.json')
 const request = require('./support/request')
 
 const hasNonNullFields = (object, fields) =>
@@ -53,9 +54,7 @@ module.exports = {
       const result = await request.get('/account')
 
       assert.equal(result.status, 200)
-      assert.ok(
-        hasNonNullFields(result.body, ['name', 'username', 'bio', 'avatarUrl']),
-      )
+      assert.deepEqual(result.body, picshare.account)
     },
 
     async 'PUT /account successfully sends back body'() {
@@ -72,8 +71,10 @@ module.exports = {
 
       assert.equal(result.status, 200)
       assert.equal(result.body.length, 2)
-      assert.ok(result.body.every(photo => photo.id))
-      assert.ok(result.body.every(photo => photo.username === username))
+      assert.deepEqual(
+        result.body,
+        picshare.feed.filter(photo => photo.username === username),
+      )
     },
 
     async 'GET /feed returns successful response'() {
@@ -81,21 +82,15 @@ module.exports = {
 
       assert.equal(result.status, 200)
       assert.equal(result.body.length, 3)
-      assert.ok(result.body.every(photo => photo.id))
+      assert.deepEqual(result.body, picshare.feed)
     },
 
     async 'GET /badfeed returns photo with incorrect key value pairs'() {
       const result = await request.get('/badfeed')
 
       assert.equal(result.status, 200)
-      assert.deepEqual(result.body, [
-        {
-          id: 1,
-          src: 'https://programming-elm.surge.sh/1.jpg',
-          caption: null,
-          liked: 'no',
-        },
-      ])
+      assert.equal(result.body.length, 1)
+      assert.deepEqual(result.body, picshare.badfeed)
     },
 
     async 'receives 3 photos from WebSocket feed'() {
