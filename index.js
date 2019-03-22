@@ -70,7 +70,8 @@ app.put('/account', (req, res) => {
 })
 app.get('/user/:username/feed', (req, res, next) => {
   const { username } = req.params
-  const userFeed = picshareDB.feed.filter(photo => photo.username === username)
+  const feed = [...picshareDB.feed, ...picshareDB.wsFeed]
+  const userFeed = feed.filter(photo => photo.username === username)
 
   res.send(userFeed)
 })

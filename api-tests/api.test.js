@@ -70,10 +70,12 @@ module.exports = {
       const result = await request.get(`/user/${username}/feed`)
 
       assert.equal(result.status, 200)
-      assert.equal(result.body.length, 2)
+      assert.equal(result.body.length, 3)
       assert.deepEqual(
         result.body,
-        picshare.feed.filter(photo => photo.username === username),
+        [...picshare.feed, ...picshare.wsFeed].filter(
+          photo => photo.username === username,
+        ),
       )
     },
 
