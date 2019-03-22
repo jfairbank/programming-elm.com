@@ -3,9 +3,6 @@ const WebSocket = require('ws')
 const picshare = require('../picshare.json')
 const request = require('./support/request')
 
-const hasNonNullFields = (object, fields) =>
-  fields.every(field => object[field])
-
 module.exports = {
   beforeEach() {
     this.requestBody = { life: 42, hello: 'world' }
