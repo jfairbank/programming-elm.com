@@ -64,7 +64,10 @@ app.get('/animals/large', (req, res) => {
 })
 
 // Picshare
-app.get('/*.(jpg|png)', proxy('programming-elm.surge.sh'))
+app.get(
+  '/*.(jpg|png)',
+  isProduction ? proxy('programming-elm.surge.sh') : express.static('images'),
+)
 app.put('/account', (req, res) => {
   res.status(200).send(req.body)
 })
