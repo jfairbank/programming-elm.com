@@ -15,8 +15,7 @@
     "reactor": "elm-reactor",
     "test": "npm run test:api",
     "test:api": "run-p --race test:server test:api:run",
-    "test:api:run":
-      "wait-on http://localhost:8001/feed && teenytest api-tests/**/*.test.js",
+    "test:api:run": "wait-on http://localhost:8001/feed && teenytest api-tests/**/*.test.js",
     "test:server": "PORT=8001 node .",
     "heroku-postbuild": "echo Skip build on Heroku"
   },
@@ -83,6 +82,8 @@
   "heroku-run-build-script": true,
   "teenytest": {
     "timeout": 20000,
-    "plugins": ["teenytest-promise"]
+    "plugins": [
+      "teenytest-promise"
+    ]
   }
 }
