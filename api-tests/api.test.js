@@ -8,6 +8,24 @@ module.exports = {
     this.requestBody = { life: 42, hello: 'world' }
   },
 
+  assets: {
+    async 'GET /1.jpg serves an image'() {
+      const result = await request.get('/1.jpg')
+
+      assert.equal(result.status, 200)
+      assert.equal(result.type, 'image/jpeg')
+    },
+
+    async 'GET /font-awesome-4.7.0/css/font-awesome.min.css serves css'() {
+      const result = await request.get(
+        '/font-awesome-4.7.0/css/font-awesome.min.css',
+      )
+
+      assert.equal(result.status, 200)
+      assert.equal(result.type, 'text/css')
+    },
+  },
+
   salad: {
     async 'POST /salad/send successfully sends back body'() {
       const result = await request.post('/salad/send').send(this.requestBody)

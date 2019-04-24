@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node scripts/build.js && node scripts/compileView.js",
     "deploy": "git push heroku master",
-    "deploy:images": "surge -p ./images",
+    "deploy:static-assets": "surge -p ./static-assets",
     "dev": "node scripts/start.js",
     "server:dev": "nodemon index.js",
     "start": "node index.js",

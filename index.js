@@ -64,10 +64,12 @@ app.get('/animals/large', (req, res) => {
 })
 
 // Picshare
-app.get(
-  '/*.(jpg|png)',
-  isProduction ? proxy('programming-elm.surge.sh') : express.static('images'),
-)
+const staticAssetsSource = isProduction
+  ? proxy('programming-elm.surge.sh')
+  : express.static('static-assets')
+
+app.get('/*.(jpg|png)', staticAssetsSource)
+app.get('/font-awesome*.(css|otf|eot|svg|ttf|woff2|woff)', staticAssetsSource)
 app.put('/account', (req, res) => {
   res.status(200).send(req.body)
 })
