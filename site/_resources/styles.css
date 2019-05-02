@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  color: #333;
+  font-family: "Roboto Slab", "Georgia", serif;
+  font-size: 1rem;
+}
+
+h1, h2, h3, p {
+  margin-top: 0;
+}
+
+h1, h2, h3, p {
+  margin-bottom: 0.5rem;
+}
+
+.main-header {
+  align-items: center;
+  background: #2e5e6b;
+  border-bottom: 10px solid #3f8396;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+
+.main-header .main-header__brand {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+}
+
+.main-header .main-header__brand img {
+  display: none;
+}
+
+.main-header .main-header__brand span {
+  color: #fff;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.main-nav ul {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  list-style: none;
+  margin: 3px 0 0 0;
+  padding: 0;
+}
+
+.main-nav li + li {
+  margin-left: 0.5rem;
+}
+
+.main-nav a {
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem;
+  text-decoration: none;
+  transition: background-color 250ms ease-out;
+}
+
+.main-nav a:hover {
+  background-color: #3f8396;
+}
+
+.content {
+  padding: 1rem 1.25rem;
+}
+
+@media only screen and (min-width: 600px) {
+  html {
+    font-size: 20px;
+  }
+
+  .main-header .main-header__brand img {
+    display: block;
+    margin-right: 0.625rem;
+    width: 1.875rem;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .main-header {
+    padding: 1.25rem 2.5rem;
+  }
+
+  .main-header .main-header__brand {
+    justify-self: start;
+  }
+
+  .main-header .main-header__brand span {
+    font-size: 1.5rem;
+  }
+
+  .main-nav {
+    justify-self: end;
+  }
+
+  .content {
+    margin: 0 auto;
+    width: 40rem;
+    padding: 1.25rem 0;
+  }
+}
