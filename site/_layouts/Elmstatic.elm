@@ -17,7 +17,7 @@ module Elmstatic exposing
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Json.Decode
+import Json.Decode as Json
 
 
 type alias Post =
@@ -28,6 +28,7 @@ type alias Post =
     , siteTitle : String
     , tags : List String
     , title : String
+    , stylesheet : Maybe String
     }
 
 
@@ -35,6 +36,7 @@ type alias Page =
     { markdown : String
     , siteTitle : String
     , title : String
+    , stylesheet : Maybe String
     }
 
 
@@ -43,44 +45,48 @@ type alias PostList =
     , section : String
     , siteTitle : String
     , title : String
+    , stylesheet : Maybe String
     }
 
 
 type alias Content a =
-    { a | siteTitle : String, title : String }
+    { a | siteTitle : String, title : String, stylesheet : Maybe String }
 
 
 type alias Layout =
-    Program Json.Decode.Value Json.Decode.Value Never
+    Program Json.Value Json.Value Never
 
 
-decodePage : Json.Decode.Decoder Page
+decodePage : Json.Decoder Page
 decodePage =
-    Json.Decode.map3 Page
-        (Json.Decode.field "markdown" Json.Decode.string)
-        (Json.Decode.field "siteTitle" Json.Decode.string)
-        (Json.Decode.field "title" Json.Decode.string)
+    Json.map4 Page
+        (Json.field "markdown" Json.string)
+        (Json.field "siteTitle" Json.string)
+        (Json.field "title" Json.string)
+        (Json.maybe <| Json.field "stylesheet" Json.string)
 
 
-decodePost : Json.Decode.Decoder Post
+decodePost : Json.Decoder Post
 decodePost =
-    Json.Decode.map7 Post
-        (Json.Decode.field "date" Json.Decode.string)
-        (Json.Decode.field "link" Json.Decode.string)
-        (Json.Decode.field "markdown" Json.Decode.string)
-        (Json.Decode.field "section" Json.Decode.string)
-        (Json.Decode.field "siteTitle" Json.Decode.string)
-        (Json.Decode.field "tags" <| Json.Decode.list Json.Decode.string)
-        (Json.Decode.field "title" Json.Decode.string)
+    Json.map8 Post
+        (Json.field "date" Json.string)
+        (Json.field "link" Json.string)
+        (Json.field "markdown" Json.string)
+        (Json.field "section" Json.string)
+        (Json.field "siteTitle" Json.string)
+        (Json.field "tags" <| Json.list Json.string)
+        (Json.field "title" Json.string)
+        (Json.maybe <| Json.field "stylesheet" Json.string)
 
 
-decodePostList : Json.Decode.Decoder PostList
+decodePostList : Json.Decoder PostList
 decodePostList =
-    Json.Decode.map4 PostList
-        (Json.Decode.field "posts" <| Json.Decode.list decodePost)
-        (Json.Decode.field "section" Json.Decode.string)
-        (Json.Decode.field "siteTitle" Json.Decode.string)
-        (Json.Decode.field "title" Json.Decode.string)
+    Json.map5 PostList
+        (Json.field "posts" <| Json.list decodePost)
+        (Json.field "section" Json.string)
+        (Json.field "siteTitle" Json.string)
+        (Json.field "title" Json.string)
+        (Json.maybe <| Json.field "stylesheet" Json.string)
 
 
 script : String -> Html Never
@@ -98,12 +104,21 @@ stylesheet href =
     node "link" [ attribute "href" href, attribute "rel" "stylesheet", attribute "type" "text/css" ] []
 
 
-htmlTemplate : String -> List (Html Never) -> Html Never
-htmlTemplate title contentNodes =
+maybeStylesheet : Maybe String -> Html Never
+maybeStylesheet maybeHref =
+    case maybeHref of
+        Just href ->
+            stylesheet href
+
+        Nothing ->
+            text ""
+
+
+htmlTemplate : String -> List (Html Never) -> List (Html Never) -> Html Never
+htmlTemplate title headContentNodes contentNodes =
     node "html"
         []
-        [ node "head"
-            []
+        [ node "head" [] <|
             [ node "title" [] [ text title ]
             , node "meta" [ attribute "charset" "utf-8" ] []
             , node "meta"
@@ -120,11 +135,13 @@ htmlTemplate title contentNodes =
             , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
             , inlineScript "hljs.initHighlightingOnLoad();"
             , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/default.min.css"
-            , stylesheet "//fonts.googleapis.com/css?family=Open+Sans|Proza+Libre|Inconsolata"
 
+            -- , stylesheet "//fonts.googleapis.com/css?family=Open+Sans|Proza+Libre|Inconsolata"
             -- CUSTOM STYLES
+            , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Open+Sans:400,600|Roboto+Slab:400,700"
             , stylesheet "/styles.css"
             ]
+                ++ headContentNodes
         , node "body" [] contentNodes
 
         -- , node "body" [] <|
@@ -133,21 +150,21 @@ htmlTemplate title contentNodes =
         ]
 
 
-layout : Json.Decode.Decoder (Content content) -> (Content content -> List (Html Never)) -> Layout
+layout : Json.Decoder (Content content) -> (Content content -> List (Html Never)) -> Layout
 layout decoder view =
     Browser.document
         { init = \contentJson -> ( contentJson, Cmd.none )
         , view =
             \contentJson ->
-                case Json.Decode.decodeValue decoder contentJson of
+                case Json.decodeValue decoder contentJson of
                     Err error ->
                         { title = ""
-                        , body = [ htmlTemplate "Error" [ Html.text <| Json.Decode.errorToString error ] ]
+                        , body = [ htmlTemplate "Error" [] [ Html.text <| Json.errorToString error ] ]
                         }
 
                     Ok content ->
                         { title = ""
-                        , body = [ htmlTemplate content.siteTitle <| view content ]
+                        , body = [ htmlTemplate content.siteTitle [ maybeStylesheet content.stylesheet ] <| view content ]
                         }
         , update = \msg contentJson -> ( contentJson, Cmd.none )
         , subscriptions = \_ -> Sub.none

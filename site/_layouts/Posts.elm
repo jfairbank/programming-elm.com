@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes as Attr exposing (alt, attribute, class, href, src)
 import Page
 import Post
+import Title
 
 
 main : Elmstatic.Layout
@@ -29,4 +30,4 @@ main =
     in
     Elmstatic.layout Elmstatic.decodePostList <|
         \content ->
-            Page.layout content.title <| postListContent <| sortPosts content.posts
+            Page.layout (Title.display content.title) <| postListContent <| sortPosts content.posts

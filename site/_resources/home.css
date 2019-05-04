@@ -1,0 +1,86 @@
+.content {
+  padding: 0;
+  width: 100%;
+}
+
+.hero {
+  align-items: center;
+  background: repeating-linear-gradient(
+    135deg,
+    #eeeae7,
+    #eeeae7 10px,
+    #f1eeec 10px,
+    #f1eeec 20px
+  );
+  box-shadow: inset 0 -10px 15px rgba(189, 178, 169, 0.5);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 2rem 1rem;
+  width: 100%;
+}
+
+.hero__info {
+  margin-left: 1rem;
+  max-width: 25rem;
+  text-align: center;
+}
+
+.hero__tagline {
+  color: #423c38;
+  font-family: "Amatic SC";
+  font-size: 2.1rem;
+  max-width: 25rem;
+}
+
+.hero__book-cover img {
+  max-width: 12.5rem;
+  width: 100%;
+}
+
+.hero__action {
+  margin-top: 0.7rem;
+}
+
+.hero__action a {
+  background: #8c4d01;
+  color: #fff;
+  display: inline-block;
+  font-size: 1rem;
+  padding: 0.75rem;
+  text-decoration: none;
+}
+
+.short-description {
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .hero__info {
+    margin-left: 2.5rem;
+  }
+
+  .hero__tagline {
+    font-size: 3rem;
+  }
+
+  .hero__action a {
+    transform: scale3d(1, 1, 1);
+    transition: transform 250ms ease-out;
+  }
+
+  .hero__action a:hover {
+    background: #2e5e6b;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  .short-description {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40rem;
+  }
+}

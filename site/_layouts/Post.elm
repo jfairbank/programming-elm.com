@@ -4,6 +4,7 @@ import Elmstatic exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (alt, attribute, class, href, src)
 import Page
+import Title
 
 
 tagsToHtml : List String -> List (Html Never)
@@ -33,5 +34,5 @@ main =
     Elmstatic.layout Elmstatic.decodePost <|
         \content ->
             Page.layout
-                content.title
+                (Title.display content.title)
                 [ metadataHtml content, Page.markdown content.markdown ]
