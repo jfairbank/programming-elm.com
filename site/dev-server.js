@@ -27,7 +27,9 @@ function debounce(fn, time) {
 }
 
 const build = () =>
-  exec(`cd ${sitePath} && elmstatic`).then(({ stdout }) => console.log(stdout))
+  exec(`cd ${sitePath} && elmstatic && cp ../favicon.ico _site`).then(
+    ({ stdout }) => console.log(stdout),
+  )
 
 function runDevServer() {
   const port = 5000
