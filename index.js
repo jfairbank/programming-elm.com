@@ -40,7 +40,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Homepage
-app.use(express.static('build'))
+app.use(express.static('site/_site'))
 
 // Salad Builder
 app.post('/salad/send', (req, res) => {

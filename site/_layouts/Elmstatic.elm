@@ -136,17 +136,12 @@ htmlTemplate title headContentNodes contentNodes =
             , inlineScript "hljs.initHighlightingOnLoad();"
             , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/default.min.css"
 
-            -- , stylesheet "//fonts.googleapis.com/css?family=Open+Sans|Proza+Libre|Inconsolata"
             -- CUSTOM STYLES
-            , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Open+Sans:400,600|Roboto+Slab:400,700"
+            , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700"
             , stylesheet "/styles.css"
             ]
                 ++ headContentNodes
         , node "body" [] contentNodes
-
-        -- , node "body" [] <|
-        --     contentNodes
-        --         ++ [ script "http://programming-elm-livereload.ngrok.io/livereload.js?snipver=1" ]
         ]
 
 

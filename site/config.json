@@ -8,15 +8,21 @@
     "title": "Programming Elm Blog",
     "description": "Blog posts from Programming Elm",
     "id": "https://programming-elm.com",
-    "link": "https://example.com/posts",
+    "link": "https://programming-elm.com/blog",
     "image": "https://example.com/img/logo.png",
-    "copyright": "Copyright: Author",
+    "copyright": "Copyright: Jeremy Fairbank",
     "language": "en",
     "generator": "Elmstatic",
     "author": {
-      "name": "Author",
-      "link": "https://example.com/about"
+      "name": "Jeremy Fairbank",
+      "link": "https://jeremyfairbank.com"
     }
   },
-  "tags": ["other", "software"]
+  "tags": [
+    "elm",
+    "front-end",
+    "front-end development",
+    "functional programming",
+    "web development"
+  ]
 }

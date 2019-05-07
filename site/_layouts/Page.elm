@@ -36,11 +36,11 @@ viewHeader =
             ]
         , nav [ class "main-nav" ]
             [ ul []
+                -- [ li []
+                --     [ a [ href "/blog" ]
+                --         [ text "Blog" ]
+                --     ]
                 [ li []
-                    [ a [ href "/blog" ]
-                        [ text "Blog" ]
-                    ]
-                , li []
                     [ a [ href "https://pragprog.com/book/jfelm/programming-elm" ]
                         [ text "Buy Now" ]
                     ]
@@ -52,7 +52,7 @@ viewHeader =
 viewBookCover : Html Never
 viewBookCover =
     img
-        [ src "/img/jfelm.jpg"
+        [ src "/img/cover.jpg"
         , alt "Programming Elm Book Cover"
         ]
         []
