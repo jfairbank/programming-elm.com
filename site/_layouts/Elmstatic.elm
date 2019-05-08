@@ -140,6 +140,13 @@ htmlTemplate title headContentNodes contentNodes =
             , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700"
             , stylesheet "//use.fontawesome.com/releases/v5.8.2/css/all.css"
             , stylesheet "/styles.css"
+            , inlineScript """
+                if ('serviceWorker' in navigator) {
+                  navigator.serviceWorker.ready.then(function(registration) {
+                    registration.unregister();
+                  })
+                }
+              """
             ]
                 ++ headContentNodes
         , node "body" [] contentNodes
