@@ -3,6 +3,7 @@ module Page exposing (layout, main, markdown)
 import Elmstatic exposing (..)
 import Html exposing (Html, a, div, h1, header, img, li, nav, span, text, ul)
 import Html.Attributes as Attr exposing (alt, attribute, class, classList, href, src)
+import Icon
 import List exposing (map)
 import Markdown
 import String.Extra
@@ -34,17 +35,19 @@ viewHeader =
             [ viewBookCover
             , span [] [ text "Programming Elm" ]
             ]
-        , nav [ class "main-nav" ]
-            [ ul []
-                -- [ li []
-                --     [ a [ href "/blog" ]
-                --         [ text "Blog" ]
-                --     ]
-                [ li []
-                    [ a [ href "https://pragprog.com/book/jfelm/programming-elm" ]
-                        [ text "Buy Now" ]
-                    ]
-                ]
+        , headerNav [ class "social-media-nav" ]
+            [ navLink "https://www.facebook.com/programmingelm"
+                [ Icon.brand "facebook-f" ]
+            , navLink "https://twitter.com/programming_elm"
+                [ Icon.brand "twitter" ]
+            ]
+        , headerNav [ class "main-nav" ]
+            -- [ navLink "/blog"
+            --     [ text "Blog" ]
+            [ navLinkWithAttributes
+                "https://pragprog.com/book/jfelm/programming-elm"
+                [ class "main-nav__buy-now-link" ]
+                [ text "Buy Now" ]
             ]
         ]
 
@@ -56,6 +59,23 @@ viewBookCover =
         , alt "Programming Elm Book Cover"
         ]
         []
+
+
+navLink : String -> List (Html msg) -> Html msg
+navLink url content =
+    navLinkWithAttributes url [] content
+
+
+navLinkWithAttributes : String -> List (Html.Attribute msg) -> List (Html msg) -> Html msg
+navLinkWithAttributes url attributes content =
+    li []
+        [ a (href url :: attributes) content ]
+
+
+headerNav : List (Html.Attribute msg) -> List (Html msg) -> Html msg
+headerNav attributes content =
+    nav (class "header-nav" :: attributes)
+        [ ul [] content ]
 
 
 viewContent : Title -> List (Html Never) -> Html Never

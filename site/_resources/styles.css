@@ -30,29 +30,30 @@ h1, h2, h3, p {
   background: #2e5e6b;
   border-bottom: 10px solid #3f8396;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 1rem 1.25rem;
 }
 
-.main-header .main-header__brand {
+.main-header__brand {
   align-items: center;
   display: flex;
   flex-direction: row;
+  margin-bottom: 1rem;
   text-decoration: none;
 }
 
-.main-header .main-header__brand img {
-  display: none;
+.main-header__brand img {
+  margin-right: 0.625rem;
+  width: 1.875rem;
 }
 
-.main-header .main-header__brand span {
+.main-header__brand span {
   color: #fff;
-  font-size: 1.3rem;
+  font-size: 1.75rem;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-.main-nav ul {
+.header-nav ul {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -62,21 +63,24 @@ h1, h2, h3, p {
   padding: 0;
 }
 
-.main-nav li + li {
-  margin-left: 0.5rem;
-}
-
-.main-nav a {
-  background-color: transparent;
+.header-nav a {
   color: #fff;
   font-size: 1rem;
-  padding: 0.5rem;
   text-decoration: none;
-  transition: background-color 250ms ease-out;
 }
 
-.main-nav a:hover {
-  background-color: #3f8396;
+.social-media-nav {
+  display: none;
+}
+
+.main-nav li + li {
+  margin-left: 1.25rem;
+}
+
+.main-nav a.main-nav__buy-now-link {
+  background-color: #21444e;
+  display: inline-block;
+  padding: 0.5rem 2rem;
 }
 
 .content {
@@ -88,10 +92,43 @@ h1, h2, h3, p {
     font-size: 20px;
   }
 
-  .main-header .main-header__brand img {
-    display: block;
-    margin-right: 0.625rem;
-    width: 1.875rem;
+  .main-header {
+    flex-direction: row;
+  }
+
+  .main-header__brand {
+    margin-bottom: 0;
+  }
+
+  .main-header__brand span {
+    font-size: 1.5rem;
+  }
+
+  .main-nav {
+    margin-left: auto;
+  }
+
+  .main-nav a {
+    border-bottom: 5px solid transparent;
+    padding-bottom: 0.25rem;
+    transition: border-bottom 250ms ease-out;
+  }
+
+  .main-nav a:hover {
+    border-bottom: 5px solid #3f8396;
+  }
+
+  .main-nav a.main-nav__buy-now-link {
+    border-bottom: 0 none;
+    transform: scale3d(1, 1, 1);
+    transition: transform 250ms ease-out;
+  }
+
+  .main-nav a.main-nav__buy-now-link:hover {
+    background-color: #a3d5e3;
+    border-bottom: 0 none;
+    color: #21444e;
+    transform: scale3d(1.1, 1.1, 1.1);
   }
 }
 
@@ -100,21 +137,42 @@ h1, h2, h3, p {
     padding: 1.25rem 2.5rem;
   }
 
-  .main-header .main-header__brand {
-    justify-self: start;
+  .social-media-nav {
+    display: flex;
+    flex-direction: row;
   }
 
-  .main-header .main-header__brand span {
-    font-size: 1.5rem;
+  .social-media-nav:before {
+    background: #fff;
+    content: '';
+    display: block;
+    margin: 0 1rem;
+    width: 1px;
   }
 
-  .main-nav {
-    justify-self: end;
+  .social-media-nav li + li {
+    margin-left: 0.75rem;
+  }
+
+  .social-media-nav a {
+    color: rgba(255, 255, 255, 1);
+    transition: color 250ms ease-out;
+  }
+
+  .social-media-nav a:hover {
+    color: rgba(255, 255, 255, 0.5);
   }
 
   .content {
     margin: 0 auto;
     width: 40rem;
     padding: 1.25rem 0;
+  }
+}
+
+@media only screen and (min-width: 1040px) {
+  .main-header {
+    padding-left: calc((100% - 50rem) / 2);
+    padding-right: calc((100% - 50rem) / 2);
   }
 }

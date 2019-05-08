@@ -138,6 +138,7 @@ htmlTemplate title headContentNodes contentNodes =
 
             -- CUSTOM STYLES
             , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700"
+            , stylesheet "//use.fontawesome.com/releases/v5.8.2/css/all.css"
             , stylesheet "/styles.css"
             ]
                 ++ headContentNodes
