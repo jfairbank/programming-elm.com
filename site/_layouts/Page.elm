@@ -8,7 +8,6 @@ import Icon
 import List exposing (map)
 import Markdown
 import String.Extra
-import Styles as S
 import Title exposing (Title)
 
 
@@ -36,19 +35,40 @@ viewHeader =
             [ viewBookCover
             , span [] [ text "Programming Elm" ]
             ]
-        , headerNav [ class "social-media-nav" ]
+        , socialMediaNav
+        , navigation [ class "main-header__nav" ]
+            -- [ navLinkWithAttributes "/blog"
+            --     [ class "main-header__nav__link" ]
+            --     [ text "Blog" ]
+            [ li [] [ buyNowLink ] ]
+        ]
+
+
+buyNowLink : Html Never
+buyNowLink =
+    a
+        [ class "buy-now-link"
+        , href "https://pragprog.com/book/jfelm/programming-elm"
+        ]
+        [ text "Buy Now" ]
+
+
+viewFooter : Html Never
+viewFooter =
+    footer [ class "main-footer" ]
+        [ socialMediaNav
+        , buyNowLink
+        ]
+
+
+socialMediaNav : Html Never
+socialMediaNav =
+    nav [ class "social-media-nav" ]
+        [ ul []
             [ navLink "https://www.facebook.com/programmingelm"
                 [ Icon.brand "facebook-f" ]
             , navLink "https://twitter.com/programming_elm"
                 [ Icon.brand "twitter" ]
-            ]
-        , headerNav [ class "main-nav" ]
-            -- [ navLink "/blog"
-            --     [ text "Blog" ]
-            [ navLinkWithAttributes
-                "https://pragprog.com/book/jfelm/programming-elm"
-                [ class "main-nav__buy-now-link" ]
-                [ text "Buy Now" ]
             ]
         ]
 
@@ -73,9 +93,9 @@ navLinkWithAttributes url attributes content =
         [ a (href url :: attributes) content ]
 
 
-headerNav : List (Html.Attribute msg) -> List (Html msg) -> Html msg
-headerNav attributes content =
-    nav (class "header-nav" :: attributes)
+navigation : List (Html.Attribute msg) -> List (Html msg) -> Html msg
+navigation attributes content =
+    nav attributes
         [ ul [] content ]
 
 
@@ -107,6 +127,7 @@ layout : Title -> List (Html Never) -> List (Html Never)
 layout title contentItems =
     [ viewHeader
     , viewContent title contentItems
+    , viewFooter
     ]
 
 
