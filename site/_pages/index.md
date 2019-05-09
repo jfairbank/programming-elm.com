@@ -9,7 +9,6 @@ stylesheet: home.css
   </div>
 
   <div class="hero__info">
-
   <div class="hero__tagline">
     Build safe and maintainable front-end applications with <em>Programming Elm</em>.
   </div>
@@ -19,7 +18,6 @@ stylesheet: home.css
       Buy Your Copy Now
     </a>
   </div>
-
   </div>
 </div>
 
