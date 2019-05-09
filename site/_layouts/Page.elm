@@ -1,8 +1,9 @@
 module Page exposing (layout, main, markdown)
 
 import Elmstatic exposing (..)
-import Html exposing (Html, a, div, h1, header, img, li, nav, span, text, ul)
-import Html.Attributes as Attr exposing (alt, attribute, class, classList, href, src)
+import Html exposing (Html, a, div, footer, h1, header, img, li, main_, nav, span, text, ul)
+import Html.Attributes exposing (alt, attribute, class, classList, href, src)
+import Html.Attributes.Extra exposing (role)
 import Icon
 import List exposing (map)
 import Markdown
@@ -80,7 +81,11 @@ headerNav attributes content =
 
 viewContent : Title -> List (Html Never) -> Html Never
 viewContent title contentItems =
-    div [ class "content", pageClass title ]
+    main_
+        [ class "content"
+        , pageClass title
+        , role "main"
+        ]
         (viewTitle title :: contentItems)
 
 
