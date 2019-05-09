@@ -131,11 +131,11 @@ htmlTemplate title headContentNodes contentNodes =
                 , attribute "content" "width=device-width, initial-scale=1.0"
                 ]
                 []
-            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"
-            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
-            , inlineScript "hljs.initHighlightingOnLoad();"
-            , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/default.min.css"
 
+            -- , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"
+            -- , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
+            -- , inlineScript "hljs.initHighlightingOnLoad();"
+            -- , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/default.min.css"
             -- CUSTOM STYLES
             , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700"
             , stylesheet "//use.fontawesome.com/releases/v5.8.2/css/all.css"
