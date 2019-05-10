@@ -79,7 +79,9 @@ h1, h2, h3, p {
   background: #2e5e6b;
   border-bottom: 10px solid #3f8396;
   display: flex;
+  flex: none;
   flex-direction: column;
+  flex-shrink: 0;
   padding: 1rem 1.25rem;
 }
 
@@ -141,6 +143,7 @@ h1, h2, h3, p {
   align-items: center;
   background: #2e5e6b;
   display: flex;
+  flex: none;
   flex-direction: row;
   flex-shrink: 0;
   justify-content: space-between;
