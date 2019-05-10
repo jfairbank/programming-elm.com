@@ -3,6 +3,7 @@
 }
 
 html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -13,6 +14,8 @@ html {
 
 body {
   color: #333;
+  display: flex;
+  flex-direction: column;
   font-family: "Roboto Slab", "Georgia", serif;
   font-size: 1rem;
 }
@@ -127,6 +130,7 @@ h1, h2, h3, p {
 /* ======= */
 
 .main-content {
+  flex: 1 0 auto;
   padding: 1rem 1.25rem;
 }
 
@@ -138,6 +142,7 @@ h1, h2, h3, p {
   background: #2e5e6b;
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
   justify-content: space-between;
   margin-top: 1rem;
   padding: 1.25rem;
