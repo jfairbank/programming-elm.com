@@ -102,7 +102,7 @@ navigation attributes content =
 viewContent : Title -> List (Html Never) -> Html Never
 viewContent title contentItems =
     main_
-        [ class "content"
+        [ class "main-content"
         , pageClass title
         , role "main"
         ]
