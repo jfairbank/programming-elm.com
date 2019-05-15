@@ -75,6 +75,14 @@
   width: 100%;
 }
 
+@media only screen and (min-width: 600px) {
+  .highlight__image img {
+    max-height: 12.5rem;
+    height: 100%;
+    width: auto;
+  }
+}
+
 @media only screen and (min-width: 800px) {
   .hero__info {
     margin-left: 2.5rem;
@@ -129,7 +137,10 @@
   }
 
   .highlight__image img {
+    height: auto;
+    max-height: auto;
     max-width: 15rem;
+    width: 100%;
   }
 }
 
