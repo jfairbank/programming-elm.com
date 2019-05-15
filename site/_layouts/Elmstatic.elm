@@ -15,13 +15,16 @@ module Elmstatic exposing
     )
 
 import Browser
+import Config
+import Date exposing (Date)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Json.Decode as Json
+import Json.Decode.Pipeline as Pipeline
 
 
 type alias Post =
-    { date : String
+    { date : Date
     , link : String
     , markdown : String
     , section : String
@@ -29,6 +32,8 @@ type alias Post =
     , tags : List String
     , title : String
     , stylesheet : Maybe String
+    , authorName : String
+    , authorUrl : String
     }
 
 
@@ -68,15 +73,20 @@ decodePage =
 
 decodePost : Json.Decoder Post
 decodePost =
-    Json.map8 Post
-        (Json.field "date" Json.string)
-        (Json.field "link" Json.string)
-        (Json.field "markdown" Json.string)
-        (Json.field "section" Json.string)
-        (Json.field "siteTitle" Json.string)
-        (Json.field "tags" <| Json.list Json.string)
-        (Json.field "title" Json.string)
-        (Json.maybe <| Json.field "stylesheet" Json.string)
+    Json.succeed Post
+        |> Pipeline.required "date"
+            (Json.string
+                |> Json.andThen (Date.fromIsoString >> resultToDecoder)
+            )
+        |> Pipeline.required "link" Json.string
+        |> Pipeline.required "markdown" Json.string
+        |> Pipeline.required "section" Json.string
+        |> Pipeline.required "siteTitle" Json.string
+        |> Pipeline.required "tags" (Json.list Json.string)
+        |> Pipeline.required "title" Json.string
+        |> Pipeline.custom (Json.maybe <| Json.field "stylesheet" Json.string)
+        |> Pipeline.optional "authorName" Json.string Config.defaultPostConfig.authorName
+        |> Pipeline.optional "authorUrl" Json.string Config.defaultPostConfig.authorUrl
 
 
 decodePostList : Json.Decoder PostList
@@ -87,6 +97,16 @@ decodePostList =
         (Json.field "siteTitle" Json.string)
         (Json.field "title" Json.string)
         (Json.maybe <| Json.field "stylesheet" Json.string)
+
+
+resultToDecoder : Result String a -> Json.Decoder a
+resultToDecoder result =
+    case result of
+        Ok value ->
+            Json.succeed value
+
+        Err error ->
+            Json.fail error
 
 
 script : String -> Html Never
@@ -131,11 +151,12 @@ htmlTemplate title headContentNodes contentNodes =
                 , attribute "content" "width=device-width, initial-scale=1.0"
                 ]
                 []
+            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"
+            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
+            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/plaintext.min.js"
+            , inlineScript "hljs.initHighlightingOnLoad();"
+            , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/tomorrow-night-eighties.min.css"
 
-            -- , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"
-            -- , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
-            -- , inlineScript "hljs.initHighlightingOnLoad();"
-            -- , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/default.min.css"
             -- CUSTOM STYLES
             , stylesheet "//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700"
             , stylesheet "//use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -153,7 +174,10 @@ htmlTemplate title headContentNodes contentNodes =
         ]
 
 
-layout : Json.Decoder (Content content) -> (Content content -> List (Html Never)) -> Layout
+layout :
+    Json.Decoder (Content content)
+    -> (Content content -> { headContent : List (Html Never), content : List (Html Never) })
+    -> Layout
 layout decoder view =
     Browser.document
         { init = \contentJson -> ( contentJson, Cmd.none )
@@ -167,7 +191,16 @@ layout decoder view =
 
                     Ok content ->
                         { title = ""
-                        , body = [ htmlTemplate content.siteTitle [ maybeStylesheet content.stylesheet ] <| view content ]
+                        , body =
+                            [ let
+                                output =
+                                    view content
+                              in
+                              htmlTemplate
+                                content.siteTitle
+                                (output.headContent ++ [ maybeStylesheet content.stylesheet ])
+                                output.content
+                            ]
                         }
         , update = \msg contentJson -> ( contentJson, Cmd.none )
         , subscriptions = \_ -> Sub.none

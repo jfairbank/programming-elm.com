@@ -20,12 +20,28 @@ body {
   font-size: 1rem;
 }
 
-h1, h2, h3, p {
+h1, h2, h3 {
+  line-height: 1.5em;
+  margin-bottom: 1rem;
   margin-top: 0;
 }
 
-h1, h2, h3, p {
-  margin-bottom: 0.5rem;
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  line-height: 1.5em;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
 }
 
 /* Components */
@@ -134,6 +150,16 @@ h1, h2, h3, p {
 .main-content {
   flex: 1 0 auto;
   padding: 1rem 1.25rem;
+}
+
+.main-content p a {
+  color: #333;
+  font-weight: bold;
+  transition: color 250ms ease-out;
+}
+
+.main-content p a:hover {
+  color: #000;
 }
 
 /* Footer */

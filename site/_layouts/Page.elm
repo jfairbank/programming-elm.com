@@ -37,10 +37,11 @@ viewHeader =
             ]
         , socialMediaNav
         , navigation [ class "main-header__nav" ]
-            -- [ navLinkWithAttributes "/blog"
-            --     [ class "main-header__nav__link" ]
-            --     [ text "Blog" ]
-            [ li [] [ buyNowLink ] ]
+            [ navLinkWithAttributes "/blog"
+                [ class "main-header__nav__link" ]
+                [ text "Blog" ]
+            , li [] [ buyNowLink ]
+            ]
         ]
 
 
@@ -120,7 +121,8 @@ viewTitle : Title -> Html msg
 viewTitle =
     Title.view <|
         \title ->
-            h1 [] [ text title ]
+            h1 [ class "main-title" ]
+                [ text title ]
 
 
 layout : Title -> List (Html Never) -> List (Html Never)
@@ -135,4 +137,9 @@ main : Elmstatic.Layout
 main =
     Elmstatic.layout Elmstatic.decodePage <|
         \content ->
-            layout (Title.hide content.title) [ markdown content.markdown ]
+            { headContent = []
+            , content =
+                layout
+                    (Title.hide content.title)
+                    [ markdown content.markdown ]
+            }

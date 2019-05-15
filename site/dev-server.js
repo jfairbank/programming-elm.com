@@ -27,7 +27,7 @@ function debounce(fn, time) {
 }
 
 const build = () =>
-  exec(`cd ${sitePath} && elmstatic && cp ../favicon.ico _site`).then(
+  exec(`cd ${sitePath} && elmstatic draft && cp ../favicon.ico _site`).then(
     ({ stdout }) => console.log(stdout),
   )
 
