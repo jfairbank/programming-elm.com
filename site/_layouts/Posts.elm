@@ -16,7 +16,7 @@ main =
             div [ class "post" ]
                 [ a
                     [ class "post__link"
-                    , href ("/" ++ post.link)
+                    , href ("/" ++ String.replace "posts/" "blog/" post.link)
                     ]
                     [ h2 [] [ text post.title ] ]
                 , Post.metadataHtml post
