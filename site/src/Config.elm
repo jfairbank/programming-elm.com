@@ -10,5 +10,5 @@ type alias Config =
 defaultPostConfig : Config
 defaultPostConfig =
     { authorName = "Jeremy Fairbank"
-    , authorUrl = "https://twitter.com/jfairbank"
+    , authorUrl = "https://twitter.com/elpapapollo"
     }
