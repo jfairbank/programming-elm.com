@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd site && elmstatic && cp ../favicon.ico _site",
+    "build": "node site/build.js",
     "deploy": "git push heroku master",
     "deploy:static-assets": "surge -p ./static-assets",
     "dev": "node site/dev-server.js",
@@ -35,10 +35,12 @@
   },
   "devDependencies": {
     "chokidar": "^3.0.0",
+    "glob": "^7.1.4",
     "livereload": "^0.7.0",
     "nodemon": "^1.18.11",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.11.1",
+    "replace-in-file": "^4.1.0",
     "serve-handler": "^6.0.0",
     "superagent": "^4.1.0",
     "teenytest": "^5.2.0",
