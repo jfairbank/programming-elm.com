@@ -19,3 +19,14 @@
 .post-metadata {
   font-size: 0.9rem;
 }
+
+.post-metadata__author {
+  color: #333;
+  font-weight: bold;
+  transition: color 250ms ease-out;
+}
+
+.post-metadata__author:hover {
+  color: #000;
+}
+

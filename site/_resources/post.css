@@ -1,3 +1,31 @@
 .post-metadata {
   margin-bottom: 1rem;
 }
+
+.post-metadata__author {
+  color: #333;
+  font-weight: bold;
+  transition: color 250ms ease-out;
+}
+
+.post-metadata__author:hover {
+  color: #000;
+}
+
+.addthis_inline_share_toolbox {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+}
+
+.addthis_inline_share_toolbox ~ .addthis_inline_share_toolbox {
+  margin-bottom: 0;
+}
+
+.addthis_inline_share_toolbox:before {
+  content: 'share';
+  color: #888;
+  display: inline-block;
+  margin-right: 0.5rem;
+}

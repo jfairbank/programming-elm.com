@@ -109,9 +109,9 @@ resultToDecoder result =
             Json.fail error
 
 
-script : String -> Html Never
-script src =
-    node "citatsmle-script" [ attribute "src" src ] []
+script : List (Html.Attribute Never) -> Html Never
+script attributes =
+    node "citatsmle-script" attributes []
 
 
 inlineScript : String -> Html Never
@@ -151,9 +151,9 @@ htmlTemplate title headContentNodes contentNodes =
                 , attribute "content" "width=device-width, initial-scale=1.0"
                 ]
                 []
-            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"
-            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"
-            , script "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/plaintext.min.js"
+            , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js" ]
+            , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js" ]
+            , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/plaintext.min.js" ]
             , inlineScript "hljs.initHighlightingOnLoad();"
             , stylesheet "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/tomorrow-night-eighties.min.css"
 

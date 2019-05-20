@@ -3,7 +3,7 @@ module Post exposing (main, metadataHtml)
 import Date
 import Elmstatic exposing (..)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (alt, attribute, class, href, src)
+import Html.Attributes as Attr exposing (attribute, class, href)
 import Page
 import Title
 
@@ -39,9 +39,25 @@ main : Elmstatic.Layout
 main =
     Elmstatic.layout Elmstatic.decodePost <|
         \content ->
-            { headContent = [ Elmstatic.stylesheet "/post.css" ]
+            { headContent =
+                [ Elmstatic.stylesheet "/post.css"
+                , Elmstatic.script
+                    [ attribute "src" "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce30ebdf1beea47"
+                    , attribute "async" "async"
+                    , attribute "defer" "defer"
+                    ]
+                ]
             , content =
                 Page.layout
                     (Title.display content.title)
-                    [ metadataHtml content, Page.markdown content.markdown ]
+                    [ metadataHtml content
+                    , socialShare
+                    , Page.markdown content.markdown
+                    , socialShare
+                    ]
             }
+
+
+socialShare : Html Never
+socialShare =
+    div [ class "addthis_inline_share_toolbox" ] []
