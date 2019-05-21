@@ -151,6 +151,7 @@ htmlTemplate title headContentNodes contentNodes =
                 , attribute "content" "width=device-width, initial-scale=1.0"
                 ]
                 []
+            , googleAnalytics
             , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js" ]
             , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js" ]
             , script [ attribute "src" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/plaintext.min.js" ]
@@ -172,6 +173,27 @@ htmlTemplate title headContentNodes contentNodes =
                 ++ headContentNodes
         , node "body" [] contentNodes
         ]
+
+
+googleAnalytics : Html Never
+googleAnalytics =
+    inlineScript """
+      if (window.location.href.match(/programming-elm\\.com/)) {
+        const meta = document.getElementsByTagName('meta')[0]
+        const script = document.createElement('script')
+
+        script.async = true
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-52148605-7'
+
+        meta.parentNode.insertBefore(script, meta)
+
+        window.dataLayer = window.dataLayer || []
+        function gtag() { dataLayer.push(arguments) }
+        gtag('js', new Date())
+
+        gtag('config', 'UA-52148605-7')
+      }
+    """
 
 
 layout :
