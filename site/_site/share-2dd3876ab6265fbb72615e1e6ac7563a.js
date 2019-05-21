@@ -1,20 +1,26 @@
 ;(function() {
+  function forEach(arrayLike, fn) {
+    Array.prototype.forEach.call(arrayLike, fn)
+  }
+
   function socialLinkClick(name, constructURL) {
     var selector = '.share-' + name + '-js'
 
-    document.querySelector(selector).addEventListener('click', function(e) {
-      e.preventDefault()
+    forEach(document.querySelectorAll(selector), function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault()
 
-      var windowName = 'programming-elm-' + name + '-share'
-      var windowOptions =
-        'width=600,height=400menubar=0,location=0,toolbar=0,status=0,scrollbars=1'
+        var windowName = 'programming-elm-' + name + '-share'
+        var windowOptions =
+          'width=600,height=400menubar=0,location=0,toolbar=0,status=0,scrollbars=1'
 
-      var url = constructURL(
-        encodeURI(window.location.href),
-        encodeURIComponent(document.title),
-      )
+        var url = constructURL(
+          encodeURI(window.location.href),
+          encodeURIComponent(document.title),
+        )
 
-      window.open(url, windowName, windowOptions)
+        window.open(url, windowName, windowOptions)
+      })
     })
   }
 
