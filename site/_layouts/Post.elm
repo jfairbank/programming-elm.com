@@ -3,7 +3,8 @@ module Post exposing (main, metadataHtml)
 import Date
 import Elmstatic exposing (..)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (attribute, class, href)
+import Html.Attributes as Attr exposing (attribute, class, href, tabindex)
+import Icon
 import Page
 import Title
 
@@ -42,7 +43,7 @@ main =
             { headContent =
                 [ Elmstatic.stylesheet "/post.css"
                 , Elmstatic.script
-                    [ attribute "src" "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce30ebdf1beea47"
+                    [ attribute "src" "/share.js"
                     , attribute "async" "async"
                     , attribute "defer" "defer"
                     ]
@@ -60,4 +61,32 @@ main =
 
 socialShare : Html Never
 socialShare =
-    div [ class "addthis_inline_share_toolbox" ] []
+    ul [ class "share" ]
+        [ li [ class "share__prompt" ]
+            [ text "share" ]
+        , socialShareItem
+            { name = "facebook"
+            , icon = "facebook-f"
+            , text = "Facebook"
+            }
+        , socialShareItem
+            { name = "twitter"
+            , icon = "twitter"
+            , text = "Twitter"
+            }
+        ]
+
+
+socialShareItem : { name : String, icon : String, text : String } -> Html Never
+socialShareItem options =
+    li [ class "share__item" ]
+        [ a
+            [ class "share__link"
+            , class <| "share__link--" ++ options.name
+            , class <| "share-" ++ options.name ++ "-js"
+            , tabindex 0
+            ]
+            [ Icon.brand options.icon
+            , span [] [ text options.text ]
+            ]
+        ]

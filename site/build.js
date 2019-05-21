@@ -18,7 +18,7 @@ const build = () =>
   exec(`cd ${sitePath} && elmstatic && cp ../favicon.ico _site`)
 
 async function fingerprintAssets() {
-  const files = await glob(`${buildPath}/**/*.css`).then(files =>
+  const files = await glob(`${buildPath}/**/*.{css,js}`).then(files =>
     Promise.all(
       files.map(async file => {
         const contents = await readFile(file)
@@ -47,8 +47,8 @@ async function fingerprintAssets() {
   for (const { from, to } of files) {
     await replace({
       files: `${buildPath}/**/*.html`,
-      from: new RegExp(`href="(.*?)${from}"`, 'mg'),
-      to: (_, prefix) => `href="${prefix}${to}"`,
+      from: new RegExp(`(href|src)="(.*?)${from}"`, 'mg'),
+      to: (_, attr, prefix) => `${attr}="${prefix}${to}"`,
     })
   }
 }

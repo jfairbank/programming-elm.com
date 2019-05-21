@@ -58,7 +58,7 @@ function watch() {
         path.join(sitePath, '_layouts/**/*.elm'),
         path.join(sitePath, '_pages/**/*.md'),
         path.join(sitePath, '_posts/**/*.md'),
-        path.join(sitePath, '_resources/**/*.{css,png,jpg}'),
+        path.join(sitePath, '_resources/**/*.{css,png,jpg,js}'),
         path.join(sitePath, 'config.json'),
       ],
       {
