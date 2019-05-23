@@ -16,7 +16,7 @@ main =
             div [ class "post" ]
                 [ a
                     [ class "post__link"
-                    , href ("/" ++ String.replace "posts/" "blog/" post.link)
+                    , href ("/" ++ Elmstatic.postBlogLink post)
                     ]
                     [ h2 [] [ text post.title ] ]
                 , Post.metadataHtml post

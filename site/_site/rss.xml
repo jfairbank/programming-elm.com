@@ -4,7 +4,7 @@
         <title>Programming Elm Blog</title>
         <link>https://programming-elm.com/blog</link>
         <description>Blog posts from Programming Elm</description>
-        <lastBuildDate>Tue, 21 May 2019 05:49:56 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 23 May 2019 07:35:20 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Elmstatic</generator>
         <language>en</language>
@@ -14,15 +14,7 @@
             <link>https://programming-elm.com/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1</link>
             <guid>https://programming-elm.com/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1</guid>
             <pubDate>Mon, 20 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[
-Back in September 2017, I presented the talk "Solving the Boolean Identity
-Crisis" at ElmConf. The talk highlights the downsides of using booleans in Elm
-code and offers ways to write clearer, more maintainable code. This post and the
-next couple of posts will share what I explored in that presentation. You can
-preview what's to come by watching my talk on YouTube.
-
-In this post, you will see how boolean function arguments obscure the intent of
-code. Then, you will learn how to replace boolean ...]]></description>
+            <description><![CDATA[See how boolean function arguments obscure the intent of code. Then, learn how to replace boolean arguments with Elm's custom types to write more understandable code.]]></description>
         </item>
     </channel>
 </rss>

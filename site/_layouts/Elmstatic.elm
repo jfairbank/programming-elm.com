@@ -10,6 +10,7 @@ module Elmstatic exposing
     , htmlTemplate
     , inlineScript
     , layout
+    , postBlogLink
     , script
     , stylesheet
     )
@@ -27,6 +28,7 @@ type alias Post =
     { date : Date
     , link : String
     , markdown : String
+    , description : String
     , section : String
     , siteTitle : String
     , tags : List String
@@ -80,6 +82,7 @@ decodePost =
             )
         |> Pipeline.required "link" Json.string
         |> Pipeline.required "markdown" Json.string
+        |> Pipeline.required "description" Json.string
         |> Pipeline.required "section" Json.string
         |> Pipeline.required "siteTitle" Json.string
         |> Pipeline.required "tags" (Json.list Json.string)
@@ -97,6 +100,11 @@ decodePostList =
         (Json.field "siteTitle" Json.string)
         (Json.field "title" Json.string)
         (Json.maybe <| Json.field "stylesheet" Json.string)
+
+
+postBlogLink : Post -> String
+postBlogLink { link } =
+    String.replace "posts/" "blog/" link
 
 
 resultToDecoder : Result String a -> Json.Decoder a

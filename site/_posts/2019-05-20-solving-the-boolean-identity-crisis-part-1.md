@@ -1,5 +1,6 @@
 ---
 title: "Solving the Boolean Identity Crisis: Part 1"
+description: See how boolean function arguments obscure the intent of code. Then, learn how to replace boolean arguments with Elm's custom types to write more understandable code.
 tags: elm
 ---
 

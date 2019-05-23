@@ -1,12 +1,15 @@
 module Post exposing (main, metadataHtml)
 
+import Config
 import Date
 import Elmstatic exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (attribute, class, href, tabindex)
 import Icon
+import OpenGraph
 import Page
 import Title
+import TwitterCard
 
 
 tagsToHtml : List String -> List (Html Never)
@@ -38,10 +41,29 @@ metadataHtml post =
 
 main : Elmstatic.Layout
 main =
+    let
+        imageUrl =
+            Config.url "img/cover-on-book.png"
+    in
     Elmstatic.layout Elmstatic.decodePost <|
         \content ->
             { headContent =
-                [ Elmstatic.stylesheet "/post.css"
+                [ OpenGraph.siteName "Programming Elm"
+                , OpenGraph.title content.title
+                , OpenGraph.description content.description
+                , OpenGraph.url <| Config.url <| Elmstatic.postBlogLink content
+                , OpenGraph.image imageUrl
+                , OpenGraph.type_ OpenGraph.Article
+                , OpenGraph.articlePublishedTime content.date
+                , OpenGraph.articleAuthor "https://www.facebook.com/jfairbank"
+                , OpenGraph.articlePublisher "https://www.facebook.com/programmingelm"
+                , TwitterCard.card TwitterCard.Summary
+                , TwitterCard.site "@programming_elm"
+                , TwitterCard.creator "@elpapapollo"
+                , TwitterCard.title content.title
+                , TwitterCard.description content.description
+                , TwitterCard.image imageUrl
+                , Elmstatic.stylesheet "/post.css"
                 , Elmstatic.script
                     [ attribute "src" "/share.js"
                     , attribute "async" "async"
