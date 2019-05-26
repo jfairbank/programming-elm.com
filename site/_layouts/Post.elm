@@ -4,7 +4,7 @@ import Config
 import Date
 import Elmstatic exposing (..)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (attribute, class, href, tabindex)
+import Html.Attributes as Attr exposing (alt, attribute, class, href, src, tabindex)
 import Icon
 import OpenGraph
 import Page
@@ -77,8 +77,44 @@ main =
                     , socialShare
                     , Page.markdown content.markdown
                     , socialShare
+                    , buyBook
                     ]
             }
+
+
+buyBook : Html Never
+buyBook =
+    div [ class "buy-book" ]
+        [ div [ class "buy-book__action" ]
+            [ img
+                [ src "/img/cover-on-book.png"
+                , alt "Programming Elm Book Cover"
+                ]
+                []
+            , a [ href "https://pragprog.com/book/jfelm/programming-elm" ]
+                [ text "Buy Now" ]
+            ]
+        , div [ class "buy-book__description" ]
+            [ h4
+                []
+                [ text """
+                    Ready to become an Elm developer or go beyond "hello world"
+                    in Elm?
+                  """
+                ]
+            , p
+                []
+                [ cite [] [ text "Programming Elm" ]
+                , text """
+                    guides you from knowing nothing about Elm to learning its
+                    syntax, building maintainable applications with the Elm
+                    Architecture, interacting with servers, debugging code,
+                    testing, scaling applications, creating single-page
+                    applications, and benchmarking performance.
+                  """
+                ]
+            ]
+        ]
 
 
 socialShare : Html Never
