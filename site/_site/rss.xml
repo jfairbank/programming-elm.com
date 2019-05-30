@@ -4,7 +4,7 @@
         <title>Programming Elm Blog</title>
         <link>https://programming-elm.com/blog</link>
         <description>Blog posts from Programming Elm</description>
-        <lastBuildDate>Thu, 23 May 2019 07:35:20 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 30 May 2019 17:53:57 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Elmstatic</generator>
         <language>en</language>
@@ -15,6 +15,13 @@
             <guid>https://programming-elm.com/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1</guid>
             <pubDate>Mon, 20 May 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[See how boolean function arguments obscure the intent of code. Then, learn how to replace boolean arguments with Elm's custom types to write more understandable code.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Solving the Boolean Identity Crisis: Part 2]]></title>
+            <link>https://programming-elm.com/blog/2019-05-30-solving-the-boolean-identity-crisis-part-2</link>
+            <guid>https://programming-elm.com/blog/2019-05-30-solving-the-boolean-identity-crisis-part-2</guid>
+            <pubDate>Thu, 30 May 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how boolean return values cause boolean blindness and create bugs. Then, discover how to replace boolean return values with Elm's custom types to have safer code.]]></description>
         </item>
     </channel>
 </rss>

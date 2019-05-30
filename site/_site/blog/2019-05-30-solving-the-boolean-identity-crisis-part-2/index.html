@@ -1,0 +1,225 @@
+<!doctype html><html><head><title>Solving the Boolean Identity Crisis: Part 2 | Programming Elm</title><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script>
+      if (window.location.href.match(/programming-elm\.com/)) {
+        const meta = document.getElementsByTagName('meta')[0]
+        const script = document.createElement('script')
+
+        script.async = true
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-52148605-7'
+
+        meta.parentNode.insertBefore(script, meta)
+
+        window.dataLayer = window.dataLayer || []
+        function gtag() { dataLayer.push(arguments) }
+        gtag('js', new Date())
+
+        gtag('config', 'UA-52148605-7')
+      }
+    </script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/highlight.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/elm.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/languages/plaintext.min.js"></script><script>hljs.initHighlightingOnLoad();</script><link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.1/styles/tomorrow-night-eighties.min.css" rel="stylesheet" type="text/css"><link href="//fonts.googleapis.com/css?family=Amatic+SC|Roboto+Slab:400,700" rel="stylesheet" type="text/css"><link href="//use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" type="text/css"><link href="/styles-113afcf000964efa24d27683b3ae4d00.css" rel="stylesheet" type="text/css"><script>
+                if ('serviceWorker' in navigator) {
+                  navigator.serviceWorker.ready.then(function(registration) {
+                    registration.unregister();
+                  })
+                }
+              </script><meta property="og:site_name" content="Programming Elm"><meta property="og:title" content="Solving the Boolean Identity Crisis: Part 2"><meta property="og:description" content="Learn how boolean return values cause boolean blindness and create bugs. Then, discover how to replace boolean return values with Elm's custom types to have safer code."><meta property="og:url" content="https://programming-elm.com/blog/2019-05-30-solving-the-boolean-identity-crisis-part-2"><meta property="og:image" content="https://programming-elm.com/img/cover-on-book.png"><meta property="og:type" content="article"><meta property="article:published_time" content="2019-05-30"><meta property="article:author" content="https://www.facebook.com/jfairbank"><meta property="article:publisher" content="https://www.facebook.com/programmingelm"><meta name="twitter:card" content="summary"><meta name="twitter:site_name" content="@programming_elm"><meta name="twitter:creator" content="@elpapapollo"><meta name="twitter:title" content="Solving the Boolean Identity Crisis: Part 2"><meta name="twitter:description" content="Learn how boolean return values cause boolean blindness and create bugs. Then, discover how to replace boolean return values with Elm's custom types to have safer code."><meta name="twitter:image" content="https://programming-elm.com/img/cover-on-book.png"><link href="/post-e7a8b0113ec2c14349f4ebd242f76ed7.css" rel="stylesheet" type="text/css"><script src="/share-78628a348a3a0bb9451ac72629c81d90.js" async="async" defer="defer"></script></head><body><header class="main-header"><a class="main-header__brand" href="/"><img src="/img/cover.jpg" alt="Programming Elm Book Cover"><span>Programming Elm</span></a><nav class="social-media-nav"><ul><li><a href="https://www.facebook.com/programmingelm"><i class="fab fa-facebook-f"></i></a></li><li><a href="https://twitter.com/programming_elm"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.linkedin.com/company/programming-elm"><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://www.goodreads.com/book/show/37824829-programming-elm"><i class="fab fa-goodreads-g"></i></a></li></ul></nav><nav class="main-header__nav"><ul><li><a href="/blog" class="main-header__nav__link">Blog</a></li><li><a class="buy-now-link" href="https://pragprog.com/book/jfelm/programming-elm">Buy Now</a></li></ul></nav></header><main class="main-content page-solving-the-boolean-identity-crisis:-part-2" role="main"><h1 class="main-title">Solving the Boolean Identity Crisis: Part 2</h1><div class="post-metadata"><span class="post-metadata__date">Posted May 30, 2019,</span> by <a class="post-metadata__author" href="https://twitter.com/elpapapollo">Jeremy Fairbank</a></div><ul class="share"><li class="share__prompt">share</li><li class="share__item"><a class="share__link share__link--facebook share-facebook-js" tabindex="0"><i class="fab fa-facebook-f"></i><span>Facebook</span></a></li><li class="share__item"><a class="share__link share__link--twitter share-twitter-js" tabindex="0"><i class="fab fa-twitter"></i><span>Twitter</span></a></li></ul><div class="markdown"><p>In the <a href="/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1">previous post</a>,
+we explored how boolean arguments obscure the intent of code. We replaced
+boolean arguments with custom type values to make code more explicit and
+maintainable.</p>
+<p>In this post, you will discover that boolean return values cause a problem known
+as <em>boolean blindness</em>. Boolean blindness can create accidental bugs in if-else
+expressions that the compiler can’t prevent. You will learn how to replace
+boolean return values with custom types to eliminate boolean blindness and
+leverage the compiler for safer code.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>In my talk, <a href="https://www.youtube.com/watch?v=8Af1bh-BVY8">Solving the Boolean Identity Crisis</a>,
+I share a tale from a
+<a href="https://www.cs.cmu.edu/~15150/previous-semesters/2012-spring/resources/lectures/09.pdf">lecture</a> by
+<a href="http://dlicata.web.wesleyan.edu">Dan Licata</a>, a professor at Wesleyan University.</p>
+<blockquote>
+<p>Sometimes, when I’m walking down the street, someone will ask me “do you know what time it
+is?” If I feel like being a literalist, I’ll say “yes.” Then they roll their eyes and say “okay, [tell]
+me what time it is!” The downside of this is that they might get used to demanding the time, and
+start demanding it of people who don’t even know it.
+It’s better to ask “do you know what time is it, and if so, please tell me?”. [T]hat’s what “what
+time is it?” usually means. This way, you get the information you were after, when it’s available.</p>
+</blockquote>
+<p>If we translate this into code, it might look like this.</p>
+<pre><code class="lang-elm">type alias Person =
+    { time : String }
+
+
+doYouKnowTheTime : Person -&gt; Boolean
+doYouKnowTheTime person =
+    person.time /= ""
+
+
+tellMeTheTime : Person -&gt; String
+tellMeTheTime person =
+    person.time
+
+
+currentTime : Person -&gt; String
+currentTime person =
+    if doYouKnowTheTime person then
+        tellMeTheTime person
+
+    else
+        "Does anybody really know what time it is?"
+</code></pre>
+<p>The <code>doYouKnowTheTime</code> function accepts a <code>Person</code> type and checks if the <code>time</code>
+field isn’t the empty string. Then, we branch on a call to <code>doYouKnowTheTime</code> inside the
+<code>currentTime</code> function. If it returns <code>True</code>, then we call <code>tellMeTheTime</code> to
+return the value of <code>person.time</code>. Otherwise, we return a default time.</p>
+<p>This code may look fine but it suffers from a couple of problems.</p>
+<p>First, as Dan rightly points out, people could demand time of others that don’t
+have it. Nothing stops us from writing this code.</p>
+<pre><code class="lang-elm">currentTime person =
+    if doYouKnowTheTime person then
+        tellMeTheTime person
+
+    else
+        tellMeTheTime person -- returns empty string
+</code></pre>
+<p>We can still call <code>tellMeTheTime</code> when <code>person.time</code> is the empty string. This
+would likely cause a bug.</p>
+<p>Second, the fact that we can cause the previous situation surfaces a
+data-modeling code smell. Strings notoriously cause trouble because any string
+is valid according to the type system. The compiler can’t enforce that a given
+string is not empty. This is a weak substitute for a more meaningful data type.</p>
+<p>We want to give the compiler better type information so it can constrain this
+code to only access the time when it’s truly available. Let’s explore how to
+make this code clearer and safer.</p>
+<h2 id="fix-the-boolean-blindness">Fix the Boolean Blindness</h2>
+<p>The first problem stems from boolean blindness. When you reduce information to a
+boolean, you lose that information easily. The information that boolean carries
+is only known inside the <code>if</code> check. As soon as you branch into the body of the
+if-else expression, you become <em>blind</em> to the original information that got you
+there. Because that boolean loses information, you must backtrack to recover it
+when you need it again.</p>
+<p>Dan offers this solution to boolean blindness, “boolean tests let you <em>look</em>,
+options let you <em>see</em>.”</p>
+<p>Dan is referring to the <code>option</code> type in
+<a href="https://en.wikipedia.org/wiki/ML_%28programming_language%29">ML</a>. In Elm, we call
+it the <code>Maybe</code> type. What Dan means is that booleans only tell you if something is
+present. The <code>Maybe</code> type tells you if it’s present by giving it to you when
+it’s available. Let’s rewrite our example with <code>Maybe String</code>.</p>
+<pre><code class="lang-elm">type alias Person =
+    { time : Maybe String }
+
+
+whatTimeIsIt : Person -&gt; Maybe String
+whatTimeIsIt person =
+    person.time
+
+
+currentTime : Person -&gt; String
+currentTime person =
+    case whatTimeIsIt person of
+        Just time -&gt;
+            time
+
+        Nothing -&gt;
+            "Does anybody really know what time it is?"
+</code></pre>
+<p>We update the <code>time</code> field to be <code>Maybe String</code>. Then, we add a <code>whatTimeIsIt</code>
+function that returns <code>person.time</code>. Inside <code>currentTime</code> we now call
+<code>whatTimeIsIt</code> and pattern match on the result. If the person has the time, then
+we immediately have access to it inside <code>Just</code>. No need to first check with an
+if-else expression. If the person doesn’t have the time, i.e. <code>Nothing</code>, then we
+return our default. </p>
+<p>We can’t accidentally access the time if it’s not present because the compiler
+will enforce the <code>Maybe</code> type constraint.</p>
+<p>We still have a problem, though. The time inside <code>Just</code> could be the empty
+string, which is an invalid time. Let’s fix that next.</p>
+<h2 id="use-time-posix">Use Time.Posix</h2>
+<p>We need a better type for encoding the time to avoid the empty string. Luckily,
+Elm has a package for working with time called
+<a href="https://package.elm-lang.org/packages/elm/time/latest/">elm/time</a>. It offers a
+<code>Posix</code> type to represent Unix time, or the amount of time that has passed since
+midnight UTC on January 1, 1970. We can use the <code>Posix</code> type and then convert it
+to a formatted time when needed.</p>
+<pre><code class="lang-elm">import Time exposing (Posix, toHour, toMinute, utc)
+
+
+type alias Person =
+    { time : Maybe Posix }
+
+
+whatTimeIsIt : Person -&gt; Maybe Posix
+whatTimeIsIt person =
+    person.time
+
+
+currentTime : Person -&gt; String
+currentTime person =
+    case whatTimeIsIt person of
+        Just time -&gt;
+            String.fromInt (toHour utc time)
+                ++ ":"
+                ++ String.fromInt (toMinute utc time)
+
+        Nothing -&gt;
+            "Does anybody really know what time it is?"
+</code></pre>
+<p>We import the <code>Time</code> module and expose <code>Posix</code>, <code>toHour</code>, <code>toMinute</code>, and <code>utc</code>.
+We change the <code>time</code> field to <code>Maybe Posix</code> and update the type annotation for
+<code>whatTimeIsIt</code>. Inside the <code>Just</code> branch of <code>currentTime</code>, we now know we have a
+valid time thanks to the <code>Posix</code> type. We use the <code>toHour</code> and <code>toMinute</code>
+functions along with <code>String.fromInt</code> and the <code>utc</code> time zone to build a
+formatted string time.</p>
+<p>This is great. Because of static types, the compiler will enforce our code to
+only access a valid time when it exists.</p>
+<p>We could go one step further to improve this code. If a person doesn’t have the
+time, then it’s <code>Nothing</code>. But, that doesn’t explain <em>why</em> the person doesn’t
+have time. We can replace <code>Maybe</code> with our own custom type. </p>
+<pre><code class="lang-elm">type CurrentTime
+    = CurrentTime Posix
+    | NoWatch
+    | InAHurry
+
+
+type alias Person =
+    { time : CurrentTime }
+
+
+currentTime : Person -&gt; String
+currentTime person =
+    case whatTimeIsIt person of
+        CurrentTime time -&gt;
+            String.fromInt (toHour utc time)
+                ++ ":"
+                ++ String.fromInt (toMinute utc time)
+
+        NoWatch -&gt;
+            "I don't have the time."
+
+        InAHurry -&gt;
+            "Sorry, I'm in a hurry."
+</code></pre>
+<p>We introduce a <code>CurrentTime</code> custom type with three constructors, <code>CurrentTime</code>,
+<code>NoWatch</code>, and <code>InAHurry</code>. The <code>CurrentTime</code> constructor wraps <code>Posix</code>. We then
+change the <code>time</code> field to be <code>CurrentTime</code>. In the <code>currentTime</code> function, we
+handle all three constructors. The <code>CurrentTime</code> branch stays the same as the
+previous <code>Just</code> branch. The <code>NoWatch</code> and <code>InAHurry</code> branches each return a
+string that describes why the person doesn’t have the time.</p>
+<p>Now, we have made the code more precise about why a person doesn’t have the time
+and have encoded better business domain rules into the code with custom types.
+Plus, we still have the compiler to ensure we can only access a valid time in
+the <code>CurrentTime</code> branch.</p>
+<h2 id="what-you-learned">What You Learned</h2>
+<p>In this post, you learned that boolean return values cause boolean blindness.
+You saw that boolean blindness can lead to human error by letting code access
+data in incorrect places. You discovered that built-in custom types such as
+<code>Maybe</code> or your own custom type let you test and access the presence of data.
+Additionally, the compiler ensures you access data only when it’s truly
+available. Try refactoring some of your own code to replace a boolean return
+value with a more meaningful custom type to make your code more maintainable.</p>
+</div><ul class="share"><li class="share__prompt">share</li><li class="share__item"><a class="share__link share__link--facebook share-facebook-js" tabindex="0"><i class="fab fa-facebook-f"></i><span>Facebook</span></a></li><li class="share__item"><a class="share__link share__link--twitter share-twitter-js" tabindex="0"><i class="fab fa-twitter"></i><span>Twitter</span></a></li></ul><div class="buy-book"><div class="buy-book__action"><img src="/img/cover-on-book.png" alt="Programming Elm Book Cover"><a href="https://pragprog.com/book/jfelm/programming-elm">Buy Now</a></div><div class="buy-book__description"><h4>
+                    Ready to become an Elm developer or go beyond "hello world"
+                    in Elm?
+                  </h4><p><cite>Programming Elm</cite>
+                    guides you from knowing nothing about Elm to learning its
+                    syntax, building maintainable applications with the Elm
+                    Architecture, interacting with servers, debugging code,
+                    testing, scaling applications, creating single-page
+                    applications, and benchmarking performance.
+                  </p></div></div></main><footer class="main-footer"><nav class="social-media-nav"><ul><li><a href="https://www.facebook.com/programmingelm"><i class="fab fa-facebook-f"></i></a></li><li><a href="https://twitter.com/programming_elm"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.linkedin.com/company/programming-elm"><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://www.goodreads.com/book/show/37824829-programming-elm"><i class="fab fa-goodreads-g"></i></a></li></ul></nav><a class="buy-now-link" href="https://pragprog.com/book/jfelm/programming-elm">Buy Now</a></footer></body></html>
