@@ -4,7 +4,7 @@ import Config
 import Date
 import Elmstatic exposing (..)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (alt, attribute, class, href, src, tabindex)
+import Html.Attributes as Attr exposing (alt, attribute, class, href, rel, src, tabindex)
 import Icon
 import OpenGraph
 import Page
@@ -48,7 +48,12 @@ main =
     Elmstatic.layout Elmstatic.decodePost <|
         \content ->
             { headContent =
-                [ OpenGraph.siteName "Programming Elm"
+                [ node "link"
+                    [ rel "canonical"
+                    , href <| Config.url <| Elmstatic.postBlogLink content
+                    ]
+                    []
+                , OpenGraph.siteName "Programming Elm"
                 , OpenGraph.title content.title
                 , OpenGraph.description content.description
                 , OpenGraph.url <| Config.url <| Elmstatic.postBlogLink content
