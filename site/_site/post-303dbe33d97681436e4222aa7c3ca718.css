@@ -1,3 +1,7 @@
+img {
+  width: 100%;
+}
+
 p code {
   background: #eee;
   display: inline-block;

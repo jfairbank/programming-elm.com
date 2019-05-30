@@ -4,6 +4,8 @@ description: Learn how boolean return values cause boolean blindness and create 
 tags: elm
 ---
 
+![Man and dog walking down road through fog](/img/fog-boolean-blindness.jpg)
+
 In the [previous post](/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1),
 we explored how boolean arguments obscure the intent of code. We replaced
 boolean arguments with custom type values to make code more explicit and
