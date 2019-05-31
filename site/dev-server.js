@@ -2,39 +2,29 @@ const childExec = require('child_process')
 const http = require('http')
 const path = require('path')
 const util = require('util')
-const chokidar = require('chokidar')
 const LiveReload = require('livereload')
-const nodemon = require('nodemon')
+const { debounce } = require('lodash')
+const chokidar = require('chokidar')
 const serve = require('serve-handler')
-
-const log = (tag, thing) => console.log(tag, thing) || thing
+const linkBlogPosts = require('./linkBlogPosts')
+const paths = require('./paths')
 
 const exec = util.promisify(childExec.exec)
 
-const sitePath = __dirname
-const buildPath = path.join(sitePath, '_site')
-
-function debounce(fn, time) {
-  let t = null
-
-  return (...args) => {
-    if (t) {
-      clearTimeout(t)
-    }
-
-    t = setTimeout(fn, time, ...args)
-  }
-}
-
-const build = () =>
-  exec(`cd ${sitePath} && elmstatic draft && cp ../favicon.ico _site`).then(
+const elmstatic = () =>
+  exec(`cd ${paths.site} && elmstatic draft && cp ../favicon.ico _site`).then(
     ({ stdout }) => console.log(stdout),
   )
+
+async function build() {
+  await elmstatic()
+  await linkBlogPosts()
+}
 
 function runDevServer() {
   const port = 5000
   const server = http.createServer((req, res) =>
-    serve(req, res, { public: buildPath }),
+    serve(req, res, { public: paths.build }),
   )
 
   server.listen(port, () => {
@@ -43,23 +33,14 @@ function runDevServer() {
 }
 
 function watch() {
-  // nodemon({
-  //   exec: 'cd site && npx elmstatic',
-  //   ext: 'css elm jpg json png',
-  //   runOnChangeOnly: true,
-  //   watch: ['site/_layouts', 'site/_resources', 'site/config.json'],
-  // })
-  //   .on('stdout', stdout => console.log(stdout))
-  //   .on('restart', debounce(() => livereload, 250))
-
   chokidar
     .watch(
       [
-        path.join(sitePath, '_layouts/**/*.elm'),
-        path.join(sitePath, '_pages/**/*.md'),
-        path.join(sitePath, '_posts/**/*.md'),
-        path.join(sitePath, '_resources/**/*.{css,png,jpg,js}'),
-        path.join(sitePath, 'config.json'),
+        path.join(paths.site, '_layouts/**/*.elm'),
+        path.join(paths.site, '_pages/**/*.md'),
+        path.join(paths.site, '_posts/**/*.md'),
+        path.join(paths.site, '_resources/**/*.{css,png,jpg,js}'),
+        path.join(paths.site, 'config.json'),
       ],
       {
         ignoreInitial: true,
@@ -72,8 +53,8 @@ function liveReload() {
   const liveReloadServer = LiveReload.createServer()
 
   chokidar
-    .watch(path.join(buildPath, '**/*.{css,html}'), { ignoreInitial: true })
-    .on('add', filepath => liveReloadServer.refresh(filepath))
+    .watch(path.join(paths.build, '**/*.{css,html}'), { ignoreInitial: true })
+    .on('add', async filepath => liveReloadServer.refresh(filepath))
 }
 
 async function main() {

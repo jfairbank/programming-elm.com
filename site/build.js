@@ -3,22 +3,20 @@ const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-const _ = require('lodash')
 const replace = require('replace-in-file')
+const linkBlogPosts = require('./linkBlogPosts')
+const paths = require('./paths')
 
 const glob = util.promisify(require('glob'))
 const exec = util.promisify(childProcess.exec)
 const readFile = util.promisify(fs.readFile)
 const renameFile = util.promisify(fs.rename)
 
-const sitePath = __dirname
-const buildPath = path.join(sitePath, '_site')
-
 const build = () =>
-  exec(`cd ${sitePath} && elmstatic && cp ../favicon.ico _site`)
+  exec(`cd ${paths.site} && elmstatic && cp ../favicon.ico _site`)
 
 async function fingerprintAssets() {
-  const files = await glob(`${buildPath}/**/*.{css,js}`).then(files =>
+  const files = await glob(`${paths.build}/**/*.{css,js}`).then(files =>
     Promise.all(
       files.map(async file => {
         const contents = await readFile(file)
@@ -46,7 +44,7 @@ async function fingerprintAssets() {
 
   for (const { from, to } of files) {
     await replace({
-      files: `${buildPath}/**/*.html`,
+      files: `${paths.build}/**/*.html`,
       from: new RegExp(`(href|src)="(.*?)${from}"`, 'mg'),
       to: (_, attr, prefix) => `${attr}="${prefix}${to}"`,
     })
@@ -56,6 +54,7 @@ async function fingerprintAssets() {
 async function main() {
   await build()
   await fingerprintAssets()
+  await linkBlogPosts()
 }
 
 main()

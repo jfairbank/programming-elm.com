@@ -137,6 +137,49 @@ blockquote:before {
   margin-bottom: 0;
 }
 
+.post-nav {
+  display: flex;
+  margin-top: 3rem;
+}
+
+.post-nav a {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  transition: color 250ms ease-out, background-color 250ms ease-out;
+}
+
+.post-nav a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.post-nav__previous-post:before {
+  content: "\f053";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.post-nav__next-post {
+  margin-left: auto;
+}
+
+.post-nav__next-post:after {
+  content: "\f054";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
 @media only screen and (min-width: 800px) {
   .buy-book {
     flex-direction: row;
