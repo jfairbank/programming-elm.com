@@ -2,6 +2,9 @@
   "name": "programming-elm.com",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "build": "node site/build.js",
     "deploy": "git push heroku master",
