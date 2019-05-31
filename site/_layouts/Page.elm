@@ -70,6 +70,8 @@ socialMediaNav =
                 [ Icon.brand "facebook-f" ]
             , navLink "https://twitter.com/programming_elm"
                 [ Icon.brand "twitter" ]
+            , navLink "https://www.instagram.com/programmingelm"
+                [ Icon.brand "instagram" ]
             , navLink "https://www.linkedin.com/company/programming-elm"
                 [ Icon.brand "linkedin-in" ]
             , navLink "https://www.goodreads.com/book/show/37824829-programming-elm"
