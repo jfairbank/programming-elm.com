@@ -9,7 +9,6 @@
     "description": "Blog posts from Programming Elm",
     "id": "https://programming-elm.com",
     "link": "https://programming-elm.com/blog",
-    "image": "https://example.com/img/logo.png",
     "copyright": "Copyright: Jeremy Fairbank",
     "language": "en",
     "generator": "Elmstatic",

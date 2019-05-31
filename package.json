@@ -15,8 +15,7 @@
     "test": "npm run test:api",
     "test:api": "run-p --race test:server test:api:run",
     "test:api:run": "wait-on http://localhost:8001/feed && teenytest api-tests/**/*.test.js",
-    "test:server": "PORT=8001 node .",
-    "heroku-postbuild": "echo Skip build on Heroku"
+    "test:server": "PORT=8001 node ."
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -46,13 +45,13 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.11.1",
     "replace-in-file": "^4.1.0",
+    "rimraf": "^2.6.3",
     "serve-handler": "^6.0.0",
     "superagent": "^4.1.0",
     "teenytest": "^5.2.0",
     "teenytest-promise": "^1.0.0",
     "wait-on": "^3.2.0"
   },
-  "heroku-run-build-script": true,
   "teenytest": {
     "timeout": 20000,
     "plugins": [

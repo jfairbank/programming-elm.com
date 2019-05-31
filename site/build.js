@@ -3,13 +3,16 @@ const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
+const cheerio = require('cheerio')
 const replace = require('replace-in-file')
 const linkBlogPosts = require('./linkBlogPosts')
 const paths = require('./paths')
 
 const glob = util.promisify(require('glob'))
+const rimraf = util.promisify(require('rimraf'))
 const exec = util.promisify(childProcess.exec)
 const readFile = util.promisify(fs.readFile)
+const writeFile = util.promisify(fs.writeFile)
 const renameFile = util.promisify(fs.rename)
 
 const build = () =>
@@ -51,10 +54,31 @@ async function fingerprintAssets() {
   }
 }
 
+async function removeBlogIndexFromFeed() {
+  const file = path.join(paths.build, 'rss.xml')
+  const contents = await readFile(file, 'utf8')
+
+  const $ = cheerio.load(contents, {
+    xmlMode: true,
+  })
+
+  $('item')
+    .last()
+    .remove()
+
+  await writeFile(file, $.xml())
+}
+
+const removePostsDir = () => rimraf(path.join(paths.build, 'posts'))
+
 async function main() {
   await build()
   await fingerprintAssets()
-  await linkBlogPosts()
+  await Promise.all([
+    linkBlogPosts(),
+    removeBlogIndexFromFeed(),
+    removePostsDir(),
+  ])
 }
 
 main()
