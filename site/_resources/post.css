@@ -10,18 +10,26 @@ p code {
 
 blockquote {
   font-style: italic;
-  margin: 1rem 2rem;
+  margin: 1rem 2rem 1rem 3.2rem;
   position: relative;
 }
 
 blockquote:before {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   color: #ddd;
-  content: '\201C';
-  display: block;
-  font-size: 4rem;
-  left: -2.7rem;
+  content: "\f10d";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 900;
+  left: -2.2rem;
+  line-height: 1;
   position: absolute;
-  top: -1rem;
+  text-rendering: auto;
+  top: -0.5rem;
 }
 
 .post-metadata {
