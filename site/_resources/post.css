@@ -168,11 +168,21 @@ blockquote:before {
   color: #000;
 }
 
-.post-nav__previous-post:before {
-  content: "\f053";
+.post-nav__previous-post:before,
+.post-nav__next-post:after {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   display: inline-block;
   font-family: "Font Awesome 5 Free";
   font-size: 1rem;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 900;
+  text-rendering: auto;
+}
+
+.post-nav__previous-post:before {
+  content: "\f053";
   margin-right: 0.5rem;
 }
 
@@ -182,9 +192,6 @@ blockquote:before {
 
 .post-nav__next-post:after {
   content: "\f054";
-  display: inline-block;
-  font-family: "Font Awesome 5 Free";
-  font-size: 1rem;
   margin-left: 0.5rem;
 }
 
