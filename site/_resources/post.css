@@ -196,6 +196,21 @@ blockquote:before {
   margin-left: 0.5rem;
 }
 
+.main-content p a.post__buy-book {
+  background: #8c4d01;
+  color: #fff;
+  display: block;
+  font-size: 1.4rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.main-content p a.post__buy-book:hover {
+  background: #2e5e6b;
+}
+
 @media only screen and (min-width: 800px) {
   .buy-book {
     flex-direction: row;
