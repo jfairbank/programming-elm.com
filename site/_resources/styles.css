@@ -54,7 +54,7 @@ ol {
   padding: 0;
 }
 
-ul li + li ,
+.markdown ul li + li,
 ol li + li {
   margin-top: 0.5rem;
 }
