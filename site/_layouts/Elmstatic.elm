@@ -36,6 +36,7 @@ type alias Post =
     , stylesheet : Maybe String
     , authorName : String
     , authorUrl : String
+    , isTip : Bool
     }
 
 
@@ -90,6 +91,7 @@ decodePost =
         |> Pipeline.custom (Json.maybe <| Json.field "stylesheet" Json.string)
         |> Pipeline.optional "authorName" Json.string Config.defaultPostConfig.authorName
         |> Pipeline.optional "authorUrl" Json.string Config.defaultPostConfig.authorUrl
+        |> Pipeline.optional "tip" (Json.map ((==) "true") Json.string) Config.defaultPostConfig.isTip
 
 
 decodePostList : Json.Decoder PostList

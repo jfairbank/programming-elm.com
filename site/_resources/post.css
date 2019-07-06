@@ -211,6 +211,83 @@ blockquote:before {
   background: #2e5e6b;
 }
 
+.post__tip {
+  font-size: 1.25rem;
+}
+
+.post__tip-images {
+  display: grid;
+  grid-gap: 12.5px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  list-style: none;
+  margin: 25px 0 30px 0;
+  padding: 0;
+}
+
+.post__tip-images a {
+  cursor: pointer;
+}
+
+.post__tip-images img {
+  object-fit: contain;
+}
+
+.post__tip-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.75);
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.post__tip-modal-content {
+  bottom: 0;
+  display: flex;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.post__tip-modal-close {
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  position: fixed;
+  right: 6px;
+  top: 4px;
+  z-index: 2;
+}
+
+.post__tip-modal-content img {
+  display: inline-block;
+  height: 90%;
+  left: 0;
+  object-fit: contain;
+  object-position: 50% 50%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+@media only screen and (min-width: 638px) {
+  .post__tip-images a {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    display: flex;
+    padding: 8px;
+    transition: background-color 150ms ease-out;
+  }
+
+  .post__tip-images a:hover {
+    background-color: #eee;
+  }
+}
+
 @media only screen and (min-width: 800px) {
   .buy-book {
     flex-direction: row;

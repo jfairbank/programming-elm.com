@@ -14,6 +14,7 @@ type alias SiteConfig =
 type alias PostConfig =
     { authorName : String
     , authorUrl : String
+    , isTip : Bool
     }
 
 
@@ -26,6 +27,7 @@ defaultPostConfig : PostConfig
 defaultPostConfig =
     { authorName = "Jeremy Fairbank"
     , authorUrl = "https://twitter.com/elpapapollo"
+    , isTip = False
     }
 
 

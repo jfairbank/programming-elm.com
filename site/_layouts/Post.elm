@@ -41,12 +41,23 @@ metadataHtml post =
 
 main : Elmstatic.Layout
 main =
-    let
-        imageUrl =
-            Config.url "img/cover-on-book.png"
-    in
     Elmstatic.layout Elmstatic.decodePost <|
         \content ->
+            let
+                imageUrl =
+                    Config.url "img/cover-on-book.png"
+
+                tipScripts =
+                    if content.isTip then
+                        [ Elmstatic.script
+                            [ attribute "src" "/tip.js" ]
+                        , Elmstatic.script
+                            [ attribute "src" "/tip-main.js" ]
+                        ]
+
+                    else
+                        []
+            in
             { headContent =
                 [ node "link"
                     [ rel "canonical"
@@ -78,12 +89,14 @@ main =
             , content =
                 Page.layout
                     (Title.display content.title)
-                    [ metadataHtml content
-                    , socialShare
-                    , Page.markdown content.markdown
-                    , socialShare
-                    , buyBook
-                    ]
+                    ([ metadataHtml content
+                     , socialShare
+                     , Page.markdown content.markdown
+                     , socialShare
+                     , buyBook
+                     ]
+                        ++ tipScripts
+                    )
             }
 
 
